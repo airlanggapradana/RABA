@@ -4,7 +4,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {type SubmitHandler, useForm} from "react-hook-form";
-import {loginSchema, type LoginSchema} from "@/utils/zod.ts";
+import {loginSchema, type LoginSchema, signupSchema, type SignupSchema} from "@/utils/zod.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
 
@@ -17,8 +17,31 @@ const Auth = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const formRegister = useForm<SignupSchema>({
+    defaultValues: {
+      email: "",
+      fullName: "",
+      password: "",
+    },
+    resolver: zodResolver(signupSchema),
+  })
+
+  const handleSignup: SubmitHandler<SignupSchema> = async (data) => {
+    await new Promise(resolve => {
+      setTimeout(() => {
+        console.log(data);
+        resolve(true);
+      }, 1000);
+    })
+  }
+
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    console.log(data);
+    await new Promise(resolve => {
+      setTimeout(() => {
+        console.log(data);
+        resolve(true);
+      }, 1000);
+    })
   }
   return (
     <div
@@ -29,7 +52,7 @@ const Auth = () => {
             className="mx-auto w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-2">
             <Music className="h-6 w-6 text-primary-foreground"/>
           </div>
-          <CardTitle className="text-2xl">Welcome to AudioHub</CardTitle>
+          <CardTitle className="text-2xl">Welcome to RABA</CardTitle>
           <CardDescription>Manage your audio and image collections</CardDescription>
         </CardHeader>
         <CardContent>
@@ -76,53 +99,76 @@ const Auth = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full" disabled={form.formState.isLoading}>
-                    {form.formState.isLoading ? "Loading..." : "Login"}
+                  <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting ? "Loading..." : "Login"}
                   </Button>
                 </form>
               </Form>
             </TabsContent>
 
-            {/*<TabsContent value="signup">*/}
-            {/*  <form onSubmit={handleSignup} className="space-y-4">*/}
-            {/*    <div className="space-y-2">*/}
-            {/*      <Label htmlFor="signup-name">Full Name</Label>*/}
-            {/*      <Input*/}
-            {/*        id="signup-name"*/}
-            {/*        type="text"*/}
-            {/*        placeholder="John Doe"*/}
-            {/*        value={fullName}*/}
-            {/*        onChange={(e) => setFullName(e.target.value)}*/}
-            {/*        required*/}
-            {/*      />*/}
-            {/*    </div>*/}
-            {/*    <div className="space-y-2">*/}
-            {/*      <Label htmlFor="signup-email">Email</Label>*/}
-            {/*      <Input*/}
-            {/*        id="signup-email"*/}
-            {/*        type="email"*/}
-            {/*        placeholder="you@example.com"*/}
-            {/*        value={email}*/}
-            {/*        onChange={(e) => setEmail(e.target.value)}*/}
-            {/*        required*/}
-            {/*      />*/}
-            {/*    </div>*/}
-            {/*    <div className="space-y-2">*/}
-            {/*      <Label htmlFor="signup-password">Password</Label>*/}
-            {/*      <Input*/}
-            {/*        id="signup-password"*/}
-            {/*        type="password"*/}
-            {/*        placeholder="••••••••"*/}
-            {/*        value={password}*/}
-            {/*        onChange={(e) => setPassword(e.target.value)}*/}
-            {/*        required*/}
-            {/*      />*/}
-            {/*    </div>*/}
-            {/*    <Button type="submit" className="w-full" disabled={loading}>*/}
-            {/*      {loading ? "Loading..." : "Sign Up"}*/}
-            {/*    </Button>*/}
-            {/*  </form>*/}
-            {/*</TabsContent>*/}
+            <TabsContent value="signup">
+              <Form {...formRegister}>
+                <form onSubmit={formRegister.handleSubmit(handleSignup)} className="space-y-4">
+                  <FormField
+                    control={formRegister.control}
+                    name="fullName"
+                    render={({field}) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="signup-name"
+                            type="text"
+                            placeholder="John Doe"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage/>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={formRegister.control}
+                    name="email"
+                    render={({field}) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="signup-email"
+                            type="email"
+                            placeholder="you@example.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage/>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={formRegister.control}
+                    name="password"
+                    render={({field}) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="signup-password"
+                            type="password"
+                            placeholder="••••••••"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage/>
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full" disabled={formRegister.formState.isSubmitting}>
+                    {formRegister.formState.isSubmitting ? "Loading..." : "Sign Up"}
+                  </Button>
+                </form>
+              </Form>
+            </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
