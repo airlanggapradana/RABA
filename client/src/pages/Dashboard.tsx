@@ -19,14 +19,14 @@ const Dashboard = () => {
       id: "audio1",
       title: "Relaxing Music",
       description: "A soothing track to help you unwind.",
-      audio_url: "https://example.com/audio1.mp3",
+      audio_url: "https://file-examples.com/storage/feace5d51968fb543999f8f/2017/11/file_example_MP3_700KB.mp3",
       image_url: "https://picsum.photos/300/400?random=1"
     },
     {
       id: "audio2",
       title: "Motivational Speech",
       description: "Get inspired with this powerful speech.",
-      audio_url: "https://example.com/audio2.mp3",
+      audio_url: "https://file-examples.com/storage/feace5d51968fb543999f8f/2017/11/file_example_MP3_700KB.mp3",
       image_url: "https://picsum.photos/300/400?random=2"
     }
   ]

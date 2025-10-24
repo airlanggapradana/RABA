@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Outlet, useNavigate, useLocation} from "react-router";
 import {LayoutDashboard, Music, Image as ImageIcon, LogOut, Menu, X} from "lucide-react";
 import {Button} from "@/components/ui/button";
+import logo from "@/assets/upscalemedia-transformed (2).webp"
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -24,9 +25,11 @@ const DashboardLayout = () => {
       >
         <div className="flex flex-col h-full p-6">
           <div className="flex items-center justify-between mb-8">
-            <h1
-              className="text-2xl font-bold bg-gradient-to-r from-green-500 to-teal-600 bg-clip-text text-transparent">
-              Raba
+            <h1 className="text-2xl font-bold flex items-center">
+              <img src={logo} alt="RABA Logo" className="h-8 w-8 mr-2 object-contain rounded-md"/>
+              <span className="bg-gradient-to-r from-green-500 to-teal-600 bg-clip-text text-transparent">
+                Raba
+              </span>
             </h1>
           </div>
 

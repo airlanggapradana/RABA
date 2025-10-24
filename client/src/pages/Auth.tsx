@@ -1,5 +1,4 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Music} from "lucide-react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -7,8 +6,11 @@ import {type SubmitHandler, useForm} from "react-hook-form";
 import {loginSchema, type LoginSchema, signupSchema, type SignupSchema} from "@/utils/zod.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
+import logo from "@/assets/logo.webp"
+import {useNavigate} from "react-router";
 
 const Auth = () => {
+  const navigate = useNavigate();
   const form = useForm<LoginSchema>({
     defaultValues: {
       email: "",
@@ -33,6 +35,7 @@ const Auth = () => {
         resolve(true);
       }, 1000);
     })
+    navigate('/dashboard');
   }
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
@@ -42,18 +45,16 @@ const Auth = () => {
         resolve(true);
       }, 1000);
     })
+    navigate('/dashboard');
   }
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <Card className="w-full max-w-md shadow-elevated">
         <CardHeader className="text-center space-y-2">
-          <div
-            className="mx-auto w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-2">
-            <Music className="h-6 w-6 text-primary-foreground"/>
-          </div>
+          <img src={logo} alt="RABA logo" className="w-24 object-contain object-center mx-auto"/>
           <CardTitle className="text-2xl">Welcome to RABA</CardTitle>
-          <CardDescription>Manage your audio and image collections</CardDescription>
+          <CardDescription>Manage your progress here.</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="login" className="w-full">
