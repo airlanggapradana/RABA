@@ -1,7 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Stack+Sans+Text:wght@200..700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-sans: 'Open Sans', sans-serif;
+    --font-heading: 'Stack Sans Text', sans-serif;
+}
 
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
@@ -119,6 +125,65 @@
     --gradient-soft: linear-gradient(180deg, hsl(220, 25%, 10%) 0%, hsl(220, 25%, 8%) 100%);
     --shadow-card: 0 4px 16px -2px hsl(0 0% 0% / 0.3);
     --shadow-elevated: 0 8px 24px -4px hsl(0 0% 0% / 0.4);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.8s ease both;
+}
+
+.animate-fadeInDown {
+    animation: fadeInDown 0.8s ease both;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-400 {
+    animation-delay: 0.4s;
+}
+
+.delay-600 {
+    animation-delay: 0.6s;
 }
 
 @layer base {
