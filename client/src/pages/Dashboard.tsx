@@ -7,11 +7,11 @@ import {toast} from "sonner";
 
 // local audio assets
 import ayamAudio from "@/assets/ayam.mp3";
-import angryDogAudio from "@/assets/angry dog sound effects - efek suara anjing marah.mp3";
-import catMeowAudio from "@/assets/Cat Meow Sound Effect ~ Attract Cats Sounds Cats Love.mp3";
-import elephantAudio from "@/assets/Elephant Sound 🐘 Giant African elephant trumpet elephant animals.mp3";
-import swanAudio from "@/assets/Swan - Sound Effect ProSounds.mp3";
-import tigerAudio from "@/assets/Tiger Roar Sound Effect.mp3";
+import angryDogAudio from "@/assets/anjing.mp3";
+import catMeowAudio from "@/assets/kucing.mp3";
+import elephantAudio from "@/assets/gajah.mp3";
+import swanAudio from "@/assets/angsa.mp3";
+import tigerAudio from "@/assets/harimau.mp3";
 
 // local image assets
 import ayam from "@/assets/Gemini_Generated_Image_gnlqr1gnlqr1gnlq.webp"
