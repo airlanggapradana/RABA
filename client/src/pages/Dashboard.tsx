@@ -5,6 +5,21 @@ import {Badge} from "@/components/ui/badge";
 import {Music, Download, Play, CheckCircle2} from "lucide-react";
 import {toast} from "sonner";
 
+// local audio assets
+import ayamAudio from "@/assets/ayam.mp3";
+import angryDogAudio from "@/assets/angry dog sound effects - efek suara anjing marah.mp3";
+import catMeowAudio from "@/assets/Cat Meow Sound Effect ~ Attract Cats Sounds Cats Love.mp3";
+import elephantAudio from "@/assets/Elephant Sound 🐘 Giant African elephant trumpet elephant animals.mp3";
+import swanAudio from "@/assets/Swan - Sound Effect ProSounds.mp3";
+import tigerAudio from "@/assets/Tiger Roar Sound Effect.mp3";
+
+// local image assets
+import ayam from "@/assets/Gemini_Generated_Image_gnlqr1gnlqr1gnlq.webp"
+import dog from "@/assets/Gemini_Generated_Image_e2dz26e2dz26e2dz (2).webp"
+import cat from "@/assets/Gemini_Generated_Image_e2dz26e2dz26e2dz (1).webp"
+import elephant from "@/assets/Gemini_Generated_Image_6zorwp6zorwp6zor.webp"
+import swan from "@/assets/Gemini_Generated_Image_e2dz26e2dz26e2dz (3).webp"
+import tiger from "@/assets/Gemini_Generated_Image_e2dz26e2dz26e2dz.webp"
 
 interface AudioProgress {
   opened_at: string | null;
@@ -17,19 +32,47 @@ const Dashboard = () => {
   const fetchData = [
     {
       id: "audio1",
-      title: "Relaxing Music",
-      description: "A soothing track to help you unwind.",
-      audio_url: "https://file-examples.com/storage/feace5d51968fb543999f8f/2017/11/file_example_MP3_700KB.mp3",
-      image_url: "https://picsum.photos/300/400?random=1"
+      title: "RAKAMAN SUARA AYAM HUTAN",
+      description: "Authentic wild chicken recording, HD sound.",
+      audio_url: ayamAudio,
+      image_url: ayam
     },
     {
       id: "audio2",
-      title: "Motivational Speech",
-      description: "Get inspired with this powerful speech.",
-      audio_url: "https://file-examples.com/storage/feace5d51968fb543999f8f/2017/11/file_example_MP3_700KB.mp3",
-      image_url: "https://picsum.photos/300/400?random=2"
+      title: "Angry Dog",
+      description: "Angry dog sound effects (efek suara anjing).",
+      audio_url: angryDogAudio,
+      image_url: dog
+    },
+    {
+      id: "audio3",
+      title: "Cat Meow",
+      description: "Cat meow sound effect to attract cats.",
+      audio_url: catMeowAudio,
+      image_url: cat
+    },
+    {
+      id: "audio4",
+      title: "Elephant Trumpet",
+      description: "Giant African elephant trumpet sound.",
+      audio_url: elephantAudio,
+      image_url: elephant
+    },
+    {
+      id: "audio5",
+      title: "Swan Sound",
+      description: "Swan sound effect from ProSounds.",
+      audio_url: swanAudio,
+      image_url: swan
+    },
+    {
+      id: "audio6",
+      title: "Tiger Roar",
+      description: "Powerful tiger roar sound effect.",
+      audio_url: tigerAudio,
+      image_url: tiger
     }
-  ]
+  ];
 
   const markAsOpened = async (audioId: string) => {
     const now = new Date().toISOString();
