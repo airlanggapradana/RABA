@@ -82,84 +82,76 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center px-[5%] pt-32 pb-16">
         <div className="relative z-10 max-w-6xl text-center">
           <div
-            className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm mb-8 animate-fadeInDown">
-            ✨ AI-Powered Business Intelligence
+            className="inline-block px-6 py-2 bg-sky-500/15 border border-sky-500/30 rounded-full text-sm mb-8 animate-fadeInDown">
+            ✨ RABA — Media Bermain Interaktif untuk Anak Usia Dini
           </div>
           <h1
             className="text-5xl md:text-7xl font-heading font-extrabold mb-6 bg-gradient-to-r from-white to-orange-300 bg-clip-text text-transparent animate-fadeInUp delay-200">
-            Transform Your Business
+            Ruang Bermain Interaktif
             <br/>
-            With AI Assistant
+            untuk Tumbuh Kembang Anak yang Inklusif
           </h1>
-          <p className="text-xl md:text-2xl text-white/70 mb-12 max-w-3xl mx-auto animate-fadeInUp delay-400">
-            Revolutionize how you work with RABA's cutting-edge AI technology.
-            Automate tasks, gain insights, and boost productivity like never before.
+          <p
+            className="text-lg md:text-xl text-white/75 mb-12 max-w-5xl mx-auto tracking-wide text-center animate-fadeInUp delay-400">
+            <span className="block mt-4 text-white/65">
+              Dirancang khusus untuk anak usia dini, termasuk anak dengan kebutuhan stimulasi tambahan, RABA menghadirkan pengalaman belajar yang aktif, aman, dan bermakna — tanpa bergantung pada layar.
+            </span>
           </p>
           <div className="flex flex-col md:flex-row gap-6 justify-center animate-fadeInUp delay-600">
             <button
               className="px-10 py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/60">
-              Start Free Trial
+              Tentang RABA
             </button>
             <button
               className="px-10 py-4 bg-white/5 border-2 border-amber-500/50 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:bg-amber-500/15 hover:border-amber-500/80 hover:-translate-y-1 backdrop-blur-md">
-              Watch Demo
+              Lihat Cara Kerjanya
             </button>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 px-[5%] bg-amber-500/5 border-y border-amber-500/20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-6xl mx-auto text-center">
-          {[
-            {number: '10K+', label: 'Active Users'},
-            {number: '95%', label: 'Customer Satisfaction'},
-            {number: '50M+', label: 'Tasks Automated'},
-            {number: '24/7', label: 'AI Support'},
-          ].map((stat, index) => (
-            <div key={index}>
-              <div
-                className="text-5xl md:text-6xl font-black bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent mb-2">
-                {stat.number}
-              </div>
-              <div className="text-lg text-white/60">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/*<section className="py-24 px-[5%] bg-amber-500/5 border-y border-amber-500/20">*/}
+      {/*  <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-6xl mx-auto text-center">*/}
+      {/*    {[*/}
+      {/*      {number: '10K+', label: 'Active Users'},*/}
+      {/*      {number: '95%', label: 'Customer Satisfaction'},*/}
+      {/*      {number: '50M+', label: 'Tasks Automated'},*/}
+      {/*      {number: '24/7', label: 'AI Support'},*/}
+      {/*    ].map((stat, index) => (*/}
+      {/*      <div key={index}>*/}
+      {/*        <div*/}
+      {/*          className="text-5xl md:text-6xl font-black bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent mb-2">*/}
+      {/*          {stat.number}*/}
+      {/*        </div>*/}
+      {/*        <div className="text-lg text-white/60">{stat.label}</div>*/}
+      {/*      </div>*/}
+      {/*    ))}*/}
+      {/*  </div>*/}
+      {/*</section>*/}
 
       {/* About Section */}
       <section id="about" className="py-32 px-[5%]">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center mb-10">
             <div>
               <div
                 className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm mb-6">
-                About RABA
+                Tentang RABA
               </div>
-              <h2 className="text-4xl md:text-5xl font-extrabold mb-6">Pioneering The Future of AI-Powered Business</h2>
-              <p className="text-xl text-white/70 mb-6 leading-relaxed">
-                Founded in 2020, RABA emerged from a simple yet powerful vision: to democratize AI technology and make
-                it accessible to businesses of all sizes.
+              <h2 className="text-4xl md:text-5xl font-extrabold mb-6">Belajar Lewat Gerak, Tumbuh Lewat Interaksi.</h2>
+              <p className="text-lg text-white/70 mb-6 leading-relaxed">
+                RABA adalah media bermain interaktif berbentuk karpet pintar yang dirancang untuk membantu stimulasi
+                bahasa, sensorik, dan fokus anak usia dini, khususnya anak dengan kesulitan konsentrasi dan kebutuhan
+                stimulasi tambahan. RABA menggabungkan permainan fisik sederhana dengan respons audio edukatif, sehingga
+                anak dapat belajar melalui gerak, suara, dan interaksi langsung secara alami dan menyenangkan.
               </p>
               <p className="text-lg text-white/60 mb-8 leading-relaxed">
-                Today, we're proud to serve over 10,000 companies worldwide, helping them automate workflows, gain
-                actionable insights, and make data-driven decisions with confidence.
+                Berbeda dari media belajar digital yang bersifat pasif dan berpotensi overstimulatif, RABA dirancang
+                dengan pendekatan guided play, di mana guru dan orang tua berperan sebagai pendamping utama. Anak tetap
+                menjadi pusat aktivitas, sementara interaksi dewasa hadir secara minimal namun bermakna untuk menjaga
+                fokus, rasa aman, dan regulasi emosi anak selama bermain.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <div className="px-6 py-3 bg-orange-500/10 border border-amber-500/30 rounded-full">
-                  <span className="text-2xl font-bold text-amber-400">2020</span>
-                  <span className="text-sm text-white/60 ml-2">Founded</span>
-                </div>
-                <div className="px-6 py-3 bg-orange-500/10 border border-amber-500/30 rounded-full">
-                  <span className="text-2xl font-bold text-amber-400">50+</span>
-                  <span className="text-sm text-white/60 ml-2">Team Members</span>
-                </div>
-                <div className="px-6 py-3 bg-orange-500/10 border border-amber-500/30 rounded-full">
-                  <span className="text-2xl font-bold text-amber-400">40+</span>
-                  <span className="text-sm text-white/60 ml-2">Countries</span>
-                </div>
-              </div>
             </div>
             <div className="relative">
               <div
@@ -174,31 +166,113 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="space-y-6">
+            <div
+              className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm">
+              Cara Kerja RABA
+            </div>
+
+            <div className="p-6 bg-orange-500/10 border border-amber-500/30 rounded-2xl">
+              <p className="text-white/80 leading-relaxed">
+                RABA dikembangkan bersama guru PAUD dan komunitas desa sebagai solusi yang kontekstual, mudah
+                digunakan, dan dapat diadaptasi sesuai kebutuhan lingkungan belajar.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-6 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md">
+                <h4 className="text-lg font-semibold mb-2 text-amber-400">Interaksi Pijakan</h4>
+                <p className="text-white/70 leading-relaxed">
+                  Setiap pijakan pada karpet memicu respons audio sederhana \- kata, instruksi, atau suara \- yang
+                  mendorong anak untuk merespons, meniru, dan berinteraksi tanpa tekanan.
+                </p>
+              </div>
+              <div className="p-6 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md">
+                <h4 className="text-lg font-semibold mb-2 text-amber-400">Modular & Sederhana</h4>
+                <p className="text-white/70 leading-relaxed">
+                  Dengan desain modular dan teknologi yang sederhana, RABA dapat digunakan di ruang kelas, posyandu,
+                  maupun rumah.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-6 bg-orange-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-4">
+              <div
+                className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center text-2xl shadow-lg animate-pulse transform transition-all duration-300 hover:scale-110"
+                aria-hidden="true"
+                title="Liveliness icon"
+              >
+                ✨
+              </div>
+              <p className="text-white/80 leading-relaxed">
+                Melalui RABA, proses belajar tidak lagi berpusat pada layar, tetapi kembali pada pengalaman tubuh,
+                bahasa, dan hubungan sosial. Inovasi ini menjadi bagian dari upaya membangun pendidikan anak usia
+                dini yang lebih inklusif, berkelanjutan, dan berakar pada praktik pendampingan yang manusiawi.
+              </p>
+            </div>
+          </div>
+
           {/* Mission & Vision */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-9">
+            {/* VISI */}
+            <div
+              className="p-10 bg-white/[0.03] border border-amber-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/20">
+              <div
+                className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-500/30">
+                🌟
+              </div>
+              <h3 className="text-2xl font-bold mb-4">VISI</h3>
+              <p className="text-white/80 leading-relaxed">
+                Menjadi media bermain edukatif yang mendukung tumbuh kembang anak melalui interaksi terpandu antara
+                anak, guru, dan orang tua, dengan pendekatan yang inklusif, aman, dan berpusat pada kebutuhan
+                perkembangan anak.
+              </p>
+            </div>
+
+            {/* MISI */}
             <div
               className="p-10 bg-white/[0.03] border border-amber-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/20">
               <div
                 className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-500/30">
                 🎯
               </div>
-              <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
-              <p className="text-white/70 leading-relaxed">
-                To empower every business with intelligent AI solutions that drive growth, enhance productivity, and
-                unlock new possibilities. We believe AI should be simple, accessible, and transformative.
-              </p>
+              <h3 className="text-2xl font-bold mb-4">MISI</h3>
+              <ul className="space-y-3 text-white/80 leading-relaxed list-decimal list-inside marker:text-amber-400">
+                <li>Mengembangkan media bermain edukatif berbasis aktivitas fisik dan audio yang mendukung stimulasi
+                  kognitif, bahasa, dan fokus anak.
+                </li>
+                <li>Mendorong peran aktif guru dan orang tua sebagai fasilitator pembelajaran tanpa mengganggu
+                  konsentrasi anak.
+                </li>
+                <li>Menyediakan sistem bermain yang sederhana, adaptif, dan ramah anak untuk mendukung proses belajar di
+                  rumah maupun di lingkungan pendidikan.
+                </li>
+                <li>Mengintegrasikan evaluasi pembelajaran berbasis observasi dan pendampingan sebagai dasar
+                  pengembangan anak secara berkelanjutan.
+                </li>
+              </ul>
             </div>
+
+            {/* GOALS */}
             <div
               className="p-10 bg-white/[0.03] border border-amber-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/20">
               <div
                 className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-500/30">
-                💡
+                🚀
               </div>
-              <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
-              <p className="text-white/70 leading-relaxed">
-                To create a world where artificial intelligence seamlessly integrates with human ingenuity, enabling
-                businesses to achieve their full potential and shape a better future for everyone.
-              </p>
+              <h3 className="text-2xl font-bold mb-4">GOALS</h3>
+              <ul className="space-y-3 text-white/80 leading-relaxed list-decimal list-inside marker:text-amber-400">
+                <li>Meningkatkan kualitas interaksi belajar antara anak, guru, dan orang tua melalui media bermain yang
+                  terarah.
+                </li>
+                <li>Membantu anak belajar dengan lebih fokus, nyaman, dan minim distraksi digital.</li>
+                <li>Menyediakan alternatif media pembelajaran yang inklusif dan mudah diterapkan di berbagai lingkungan
+                  sosial.
+                </li>
+                <li>Mendorong praktik pembelajaran kolaboratif yang berkelanjutan dalam mendukung perkembangan anak usia
+                  dini.
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -404,14 +478,18 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-32 px-[5%] text-center">
         <div
-          className="max-w-4xl mx-auto p-16 bg-gradient-to-r from-amber-500/15 to-orange-500/15 border border-amber-500/30 rounded-[2rem] backdrop-blur-xl">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-6">Ready to Transform Your Business?</h2>
-          <p className="text-xl text-white/70 mb-10">
-            Join thousands of companies already using RABA to automate workflows and drive growth.
+          className="bg-amber-900/50 backdrop-blur-2xl border border-white/10 rounded-3xl p-16 max-w-4xl text-center shadow-2xl mx-auto">
+          <h1
+            className="text-5xl font-bold mb-6 leading-tight bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+            Siap Mendukung Tumbuh Kembang Anak dengan Cara yang Lebih Bermakna?
+          </h1>
+          <p className="text-xl leading-relaxed text-amber-100 mb-10">
+            Bergabunglah dengan ratusan guru PAUD dan orang tua yang telah menggunakan RABA untuk mendukung stimulasi
+            bahasa, sensorik, dan fokus anak melalui bermain yang terarah dan inklusif.
           </p>
           <button
-            className="px-10 py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/60">
-            Start Your Free Trial
+            className="bg-gradient-to-r from-orange-500 to-amber-500 px-12 py-4 rounded-full font-bold text-lg hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/40 transition-all">
+            Coba RABA Gratis
           </button>
         </div>
       </section>
