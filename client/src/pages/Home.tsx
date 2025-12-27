@@ -1,5 +1,14 @@
 import {useState, useEffect} from 'react';
 import logo from "@/assets/logo.webp"
+import aura from "@/assets/foto_tim_webp/Aura Kalbu Darsono.webp"
+import rangga from "@/assets/foto_tim_webp/Airlangga Pradana Prakusa.webp"
+import taqiyyah from "@/assets/foto_tim_webp/TAQIYYAH NURUL _AZZAH.webp"
+import salsa from "@/assets/foto_tim_webp/Salsabila Malikatul Jannah_.webp"
+import arina from "@/assets/foto_tim_webp/arina.webp"
+import dwi from "@/assets/foto_tim_webp/Dwi Rahmat Maulana.webp"
+import ihsan from "@/assets/foto_tim_webp/Ihsan Abdillah.webp"
+import aqil from "@/assets/foto_tim_webp/Nabiel Aqila Gandung.webp"
+import hasbi from "@/assets/foto_tim_webp/Muhammad Hasbi Assidiqi.webp"
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -109,26 +118,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Stats Section */}
-      {/*<section className="py-24 px-[5%] bg-amber-500/5 border-y border-amber-500/20">*/}
-      {/*  <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-6xl mx-auto text-center">*/}
-      {/*    {[*/}
-      {/*      {number: '10K+', label: 'Active Users'},*/}
-      {/*      {number: '95%', label: 'Customer Satisfaction'},*/}
-      {/*      {number: '50M+', label: 'Tasks Automated'},*/}
-      {/*      {number: '24/7', label: 'AI Support'},*/}
-      {/*    ].map((stat, index) => (*/}
-      {/*      <div key={index}>*/}
-      {/*        <div*/}
-      {/*          className="text-5xl md:text-6xl font-black bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent mb-2">*/}
-      {/*          {stat.number}*/}
-      {/*        </div>*/}
-      {/*        <div className="text-lg text-white/60">{stat.label}</div>*/}
-      {/*      </div>*/}
-      {/*    ))}*/}
-      {/*  </div>*/}
-      {/*</section>*/}
 
       {/* About Section */}
       <section id="about" className="py-32 px-[5%]">
@@ -417,44 +406,81 @@ export default function Home() {
         <div className="text-center mb-20">
           <div
             className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm mb-4">
-            Our Team
+            Tim Kami
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">Meet The Innovators</h2>
-          <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            A passionate team of AI experts, engineers, and visionaries dedicated to revolutionizing business
-            intelligence
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">
+            Bertemu dengan Tim di Balik RABA
+          </h2>
+          <p className="text-xl text-white/60 max-w-4xl mx-auto">
+            Mari berkenalan dengan tim di balik RABA — para inovator berdedikasi yang berkomitmen menciptakan solusi
+            pembelajaran inklusif dan bermakna untuk anak usia dini.
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {[
             {
-              name: "Alex Morgan",
-              role: "Founder & CEO",
-              bio: "Former AI lead at major tech companies with 15+ years of experience",
-              avatar: "AM",
+              name: "Aura Kalbu Darsono",
+              role: "Founder",
+              bio: "Pendidikan Bahasa dan Sastra Indonesia '23",
+              avatar: aura,
               gradient: "from-purple-500 to-pink-500"
             },
             {
-              name: "Priya Sharma",
-              role: "Chief Technology Officer",
-              bio: "PhD in Machine Learning, published researcher and innovator",
-              avatar: "PS",
+              name: "Airlangga Pradana Prakusa",
+              role: "Web Developer",
+              bio: "Teknik Informatika '24",
+              avatar: rangga,
               gradient: "from-pink-500 to-purple-500"
             },
             {
-              name: "Marcus Johnson",
-              role: "Head of Product",
-              bio: "Product strategist who has launched 10+ successful SaaS products",
-              avatar: "MJ",
-              gradient: "from-purple-500 to-blue-500"
+              name: "Taqiyyah Nurul Azzah",
+              role: "Research and Development",
+              bio: "Fisioterapi '22",
+              avatar: taqiyyah,
+              gradient: "from-pink-500 to-purple-500"
             },
             {
-              name: "Nina Patel",
-              role: "VP of Engineering",
-              bio: "Full-stack architect specializing in scalable AI infrastructure",
-              avatar: "NP",
-              gradient: "from-blue-500 to-purple-500"
-            }
+              name: "Salsabila Malikatul Jannah",
+              role: "Research and Development",
+              bio: "Fisioterapi '22",
+              avatar: salsa,
+              gradient: "from-pink-500 to-purple-500"
+            },
+            {
+              name: "Arina Ilman Naffah",
+              role: "Research and Development",
+              bio: "Teknik Elektro '24",
+              avatar: arina,
+              gradient: "from-pink-500 to-purple-500"
+            },
+            {
+              name: "Dwi Rahmat Maulana",
+              role: "Chief Technology Officer",
+              bio: "Teknik Elektro '24",
+              avatar: dwi,
+              gradient: "from-pink-500 to-purple-500"
+            },
+            {
+              name: "Ihsan Abdillah",
+              role: "Chief Technology Officer",
+              bio: "Teknik Elektro '24",
+              avatar: ihsan,
+              gradient: "from-pink-500 to-purple-500"
+            },
+            {
+              name: "Nabiel Aqila Gandung",
+              role: "Documentation Specialist",
+              bio: "Psikologi '25",
+              avatar: aqil,
+              gradient: "from-pink-500 to-purple-500"
+            },
+            {
+              name: "Muhammad Hasbi Assidiqi",
+              role: "Web Developer",
+              bio: "Sistem Informasi '24",
+              avatar: hasbi,
+              gradient: "from-pink-500 to-purple-500"
+            },
           ].map((member, index) => (
             <div
               key={index}
@@ -463,8 +489,10 @@ export default function Home() {
               <div
                 className="relative p-8 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-3 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-2xl hover:shadow-orange-500/30">
                 <div
-                  className={`w-24 h-24 bg-gradient-to-r ${member.gradient} rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-                  {member.avatar}
+                  className={`w-24 h-24 rounded-2xl p-[2px] mx-auto mb-6 shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 bg-gradient-to-r ${member.gradient}`}>
+                  <div className="w-full h-full bg-slate-900 rounded-2xl overflow-hidden">
+                    <img src={member.avatar} alt={member.name} className="w-full h-full object-cover block"/>
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-center">{member.name}</h3>
                 <div className="text-amber-400 text-sm font-semibold mb-4 text-center">{member.role}</div>
