@@ -9,6 +9,8 @@ import dwi from "@/assets/foto_tim_webp/Dwi Rahmat Maulana.webp"
 import ihsan from "@/assets/foto_tim_webp/Ihsan Abdillah.webp"
 import aqil from "@/assets/foto_tim_webp/Nabiel Aqila Gandung.webp"
 import hasbi from "@/assets/foto_tim_webp/Muhammad Hasbi Assidiqi.webp"
+import bg from "@/assets/bg.jpg"
+import bg_2 from "@/assets/bg_2.jpg"
 import {useNavigate} from "react-router";
 
 export default function Home() {
@@ -77,7 +79,7 @@ export default function Home() {
             <li key={item}>
               <button
                 onClick={() => scrollToSection(item)}
-                className="text-white/80 font-medium transition-all duration-300 hover:text-white relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-amber-500 after:to-amber-500 after:transition-all after:duration-300 hover:after:w-full capitalize"
+                className="text-white/80 font-medium transition-all duration-300 hover:text-white relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-sky-500 after:to-sky-500 after:transition-all after:duration-300 hover:after:w-full capitalize"
               >
                 {item}
               </button>
@@ -92,14 +94,40 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-[5%] pt-32 pb-16">
+      <section
+        className="relative min-h-screen flex items-center justify-center px-[5%] pt-32 pb-16 text-white overflow-hidden"
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.45) 40%, rgba(0,0,0,0.75)), radial-gradient(60% 60% at 50% 40%, rgba(255,255,255,0.10), rgba(0,0,0,0)), url(${bg})`,
+            backgroundBlendMode: 'multiply, normal, normal',
+            filter: 'blur(2px)',
+            transform: 'scale(1.03)',
+          }}
+        />
+        {/* Background overlay for better text contrast */}
+        <div
+          className="absolute inset-0 bg-black/40 pointer-events-none"/>
         <div className="relative z-10 max-w-6xl text-center">
           <div
-            className="inline-block px-6 py-2 bg-sky-500/15 border border-sky-500/30 rounded-full text-sm mb-8 animate-fadeInDown">
-            ✨ RABA — Media Bermain Interaktif untuk Anak Usia Dini
+            className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-orange-600/25 to-amber-500/50 border border-amber-500/50 rounded-full text-sm mb-8 animate-fadeInDown"
+            role="status"
+            aria-live="polite"
+          >
+            <span
+              className="flex items-center justify-center w-6 h-6 rounded-full bg-orange-500/20 text-white text-sm shadow-sm"
+              aria-hidden="true">
+              ✨
+            </span>
+            <span className="text-white/90 leading-tight">
+              <span className="font-semibold">RABA</span>
+              <span className="hidden sm:inline"> — Media Bermain Interaktif untuk Anak Usia Dini</span>
+              <span className="sm:hidden"> — Media Bermain Interaktif</span>
+            </span>
           </div>
           <h1
-            className="text-5xl md:text-7xl py-4 font-heading font-extrabold mb-6 bg-gradient-to-r from-white to-orange-300 bg-clip-text text-transparent animate-fadeInUp delay-200">
+            className="text-5xl md:text-7xl py-4 font-heading font-extrabold mb-6 bg-gradient-to-br from-orange-300 to-gray-200 bg-clip-text text-transparent animate-fadeInUp delay-200">
             Ruang Bermain Interaktif
             <br/>
             untuk Tumbuh Kembang Anak yang Inklusif
@@ -328,10 +356,20 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-32 px-[5%] bg-orange-500/5 border-y border-amber-500/20">
-        <div className="text-center mb-20">
-          <div
-            className="inline-block px-6 py-2 bg-amber-500/15 border border-amber-500/30 rounded-full text-sm mb-4">
+      <section className="relative py-32 px-[5%] border-y border-amber-500/20 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.45) 40%, rgba(0,0,0,0.75)), url(${bg_2})`,
+            backgroundBlendMode: 'multiply, normal',
+            filter: 'blur(2px)',
+            transform: 'scale(1.03)',
+          }}
+        />
+        <div className="absolute inset-0 bg-black/40 pointer-events-none"/>
+
+        <div className="relative z-10 text-center mb-20">
+          <div className="inline-block px-6 py-2 bg-amber-500/15 border border-amber-500/30 rounded-full text-sm mb-4">
             Testimonials
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">What Our Clients Say</h2>
@@ -339,7 +377,8 @@ export default function Home() {
             Trusted by industry leaders and innovative startups worldwide
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+        <div className="relative z-10 grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
             {
               quote: "RABA has completely transformed how we handle customer data. The AI insights are incredibly accurate and have helped us increase conversion by 40%.",
@@ -380,13 +419,13 @@ export default function Home() {
           ].map((testimonial, index) => (
             <div
               key={index}
-              className="relative p-8 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-amber-500/[0.08] hover:border-amber-500/40 hover:shadow-xl hover:shadow-orange-500/20"
+              className="relative p-8 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-sky-500/[0.08] hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-500/20"
             >
-              <div className="text-4xl text-amber-400 mb-4">"</div>
+              <div className="text-4xl text-sky-400 mb-4">"</div>
               <p className="text-white/80 mb-6 leading-relaxed">{testimonial.quote}</p>
               <div className="flex items-center gap-4">
                 <div
-                  className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center font-bold text-sm">
+                  className="w-12 h-12 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full flex items-center justify-center font-bold text-sm">
                   {testimonial.avatar}
                 </div>
                 <div>
@@ -400,104 +439,110 @@ export default function Home() {
       </section>
 
       {/* Team Section */}
-      <section id={'teams'} className="py-32 px-[5%]">
-        <div className="text-center mb-20">
-          <div
-            className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm mb-4">
-            Tim Kami
-          </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">
-            Bertemu dengan Tim di Balik RABA
-          </h2>
-          <p className="text-xl text-white/60 max-w-4xl mx-auto">
-            Mari berkenalan dengan tim di balik RABA — para inovator berdedikasi yang berkomitmen menciptakan solusi
-            pembelajaran inklusif dan bermakna untuk anak usia dini.
-          </p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          {[
-            {
-              name: "Aura Kalbu Darsono",
-              role: "Founder",
-              bio: "Pendidikan Bahasa dan Sastra Indonesia '23",
-              avatar: aura,
-              gradient: "from-purple-500 to-pink-500"
-            },
-            {
-              name: "Airlangga Pradana Prakusa",
-              role: "Web Developer",
-              bio: "Teknik Informatika '24",
-              avatar: rangga,
-              gradient: "from-pink-500 to-purple-500"
-            },
-            {
-              name: "Taqiyyah Nurul Azzah",
-              role: "Research and Development",
-              bio: "Fisioterapi '22",
-              avatar: taqiyyah,
-              gradient: "from-pink-500 to-purple-500"
-            },
-            {
-              name: "Salsabila Malikatul Jannah",
-              role: "Research and Development",
-              bio: "Fisioterapi '22",
-              avatar: salsa,
-              gradient: "from-pink-500 to-purple-500"
-            },
-            {
-              name: "Arina Ilman Naffah",
-              role: "Research and Development",
-              bio: "Teknik Elektro '24",
-              avatar: arina,
-              gradient: "from-pink-500 to-purple-500"
-            },
-            {
-              name: "Dwi Rahmat Maulana",
-              role: "Chief Technology Officer",
-              bio: "Teknik Elektro '24",
-              avatar: dwi,
-              gradient: "from-pink-500 to-purple-500"
-            },
-            {
-              name: "Ihsan Abdillah",
-              role: "Chief Technology Officer",
-              bio: "Teknik Elektro '24",
-              avatar: ihsan,
-              gradient: "from-pink-500 to-purple-500"
-            },
-            {
-              name: "Nabiel Aqila Gandung",
-              role: "Documentation Specialist",
-              bio: "Psikologi '25",
-              avatar: aqil,
-              gradient: "from-pink-500 to-purple-500"
-            },
-            {
-              name: "Muhammad Hasbi Assidiqi",
-              role: "Web Developer",
-              bio: "Sistem Informasi '24",
-              avatar: hasbi,
-              gradient: "from-pink-500 to-purple-500"
-            },
-          ].map((member, index) => (
+      <section id={'teams'} className="py-28 px-[5%]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
             <div
-              key={index}
-              className="relative group"
-            >
-              <div
-                className="relative p-8 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-3 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-2xl hover:shadow-orange-500/30">
-                <div
-                  className={`w-24 h-24 rounded-2xl p-[2px] mx-auto mb-6 shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 bg-gradient-to-r ${member.gradient}`}>
-                  <div className="w-full h-full bg-slate-900 rounded-2xl overflow-hidden">
+              className="inline-block px-5 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full text-sm mb-4 backdrop-blur-sm">
+              Tim Kami
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">
+              Bertemu dengan Tim di Balik RABA
+            </h2>
+            <p className="text-md md:text-lg text-white/60 max-w-3xl mx-auto">
+              Para inovator berdedikasi yang merancang solusi pembelajaran inklusif dan bermakna untuk anak usia dini.
+            </p>
+          </div>
+
+          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr">
+            {[
+              {
+                name: "Aura Kalbu Darsono",
+                role: "Founder",
+                bio: "Pendidikan Bahasa dan Sastra Indonesia '23",
+                avatar: aura,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Airlangga Pradana Prakusa",
+                role: "Web Developer",
+                bio: "Teknik Informatika '24",
+                avatar: rangga,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Taqiyyah Nurul Azzah",
+                role: "Research and Development",
+                bio: "Fisioterapi '22",
+                avatar: taqiyyah,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Salsabila Malikatul Jannah",
+                role: "Research and Development",
+                bio: "Fisioterapi '22",
+                avatar: salsa,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Arina Ilman Naffah",
+                role: "Research and Development",
+                bio: "Teknik Elektro '24",
+                avatar: arina,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Dwi Rahmat Maulana",
+                role: "Chief Technology Officer",
+                bio: "Teknik Elektro '24",
+                avatar: dwi,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Ihsan Abdillah",
+                role: "Chief Technology Officer",
+                bio: "Teknik Elektro '24",
+                avatar: ihsan,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Nabiel Aqila Gandung",
+                role: "Documentation Specialist",
+                bio: "Psikologi '25",
+                avatar: aqil,
+                gradient: "from-orange-500 to-amber-500"
+              },
+              {
+                name: "Muhammad Hasbi Assidiqi",
+                role: "Web Developer",
+                bio: "Sistem Informasi '24",
+                avatar: hasbi,
+                gradient: "from-orange-500 to-amber-500"
+              },
+            ].map((member, index) => (
+              <article
+                key={index}
+                className="relative bg-white/[0.03] border border-amber-500/12 rounded-3xl p-6 flex flex-col items-center text-center gap-4 shadow-sm hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2"
+              >
+                <div className={`rounded-full p-[2px] bg-gradient-to-tr ${member.gradient} shadow-md`}>
+                  <div className="w-28 h-28 rounded-full bg-slate-900 overflow-hidden">
                     <img src={member.avatar} alt={member.name} className="w-full h-full object-cover block"/>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-center">{member.name}</h3>
-                <div className="text-amber-400 text-sm font-semibold mb-4 text-center">{member.role}</div>
-                <p className="text-white/60 text-sm leading-relaxed text-center">{member.bio}</p>
-              </div>
-            </div>
-          ))}
+
+                <div className="flex flex-col items-center gap-1">
+                  <h3 className="text-lg font-semibold">{member.name}</h3>
+                  <span className="inline-block text-xs text-amber-300 bg-white/5 px-3 py-1 rounded-full font-medium">
+                    {member.role}
+                  </span>
+                </div>
+
+                <p className="mt-2 text-sm text-white/60 leading-relaxed line-clamp-3">
+                  {member.bio}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
