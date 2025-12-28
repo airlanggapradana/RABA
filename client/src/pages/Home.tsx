@@ -9,6 +9,7 @@ import dwi from "@/assets/foto_tim_webp/Dwi Rahmat Maulana.webp"
 import ihsan from "@/assets/foto_tim_webp/Ihsan Abdillah.webp"
 import aqil from "@/assets/foto_tim_webp/Nabiel Aqila Gandung.webp"
 import hasbi from "@/assets/foto_tim_webp/Muhammad Hasbi Assidiqi.webp"
+import {useNavigate} from "react-router";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -47,6 +48,8 @@ export default function Home() {
     duration: 15 + Math.random() * 10,
   }));
 
+  const navigate = useNavigate();
+
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-slate-950 via-amber-950 to-slate-950 text-white overflow-x-hidden">
@@ -82,6 +85,7 @@ export default function Home() {
           ))}
         </ul>
         <button
+          onClick={() => navigate('auth')}
           className="px-7 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/50">
           Get Started
         </button>
@@ -95,7 +99,7 @@ export default function Home() {
             ✨ RABA — Media Bermain Interaktif untuk Anak Usia Dini
           </div>
           <h1
-            className="text-5xl md:text-7xl font-heading font-extrabold mb-6 bg-gradient-to-r from-white to-orange-300 bg-clip-text text-transparent animate-fadeInUp delay-200">
+            className="text-5xl md:text-7xl py-4 font-heading font-extrabold mb-6 bg-gradient-to-r from-white to-orange-300 bg-clip-text text-transparent animate-fadeInUp delay-200">
             Ruang Bermain Interaktif
             <br/>
             untuk Tumbuh Kembang Anak yang Inklusif
@@ -108,10 +112,12 @@ export default function Home() {
           </p>
           <div className="flex flex-col md:flex-row gap-6 justify-center animate-fadeInUp delay-600">
             <button
+              onClick={() => scrollToSection('about')}
               className="px-10 py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/60">
               Tentang RABA
             </button>
             <button
+              onClick={() => scrollToSection('how-it-works')}
               className="px-10 py-4 bg-white/5 border-2 border-amber-500/50 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:bg-amber-500/15 hover:border-amber-500/80 hover:-translate-y-1 backdrop-blur-md">
               Lihat Cara Kerjanya
             </button>
@@ -155,7 +161,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 py-28" id={'how-it-works'}>
             <div
               className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm">
               Cara Kerja RABA
@@ -272,44 +278,36 @@ export default function Home() {
         <div className="text-center mb-20">
           <div
             className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm mb-4">
-            Features
+            Fitur
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">Powerful AI Capabilities</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">
+            Fitur Unggulan RABA
+          </h2>
           <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Everything you need to streamline your business operations and make data-driven decisions
+            Dirancang untuk memberikan pengalaman belajar yang interaktif, aman, dan menyenangkan bagi anak usia dini.
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
             {
               icon: '🚀',
-              title: 'Intelligent Automation',
-              description: 'Automate repetitive tasks and workflows with advanced AI that learns from your business patterns.',
+              title: 'Terintegrasi dengan Karpet',
+              description: 'Sensorik Pintar yang Memicu Respon Audio Edukatif saat Dipijak.',
             },
             {
               icon: '📊',
-              title: 'Real-Time Analytics',
-              description: 'Get instant insights from your data with powerful analytics and visualization tools.',
-            },
-            {
-              icon: '🔒',
-              title: 'Enterprise Security',
-              description: 'Bank-level encryption and security protocols to keep your data safe and compliant.',
-            },
-            {
-              icon: '💬',
-              title: 'Natural Language AI',
-              description: 'Interact with your assistant using natural language for effortless communication.',
+              title: 'Real-Time Data',
+              description: 'Dapatkan wawasan instan tentang interaksi dan kemajuan anak melalui dashboard intuitif kami.',
             },
             {
               icon: '🔄',
-              title: 'Seamless Integration',
-              description: 'Connect with your existing tools and platforms with our extensive API library.',
+              title: 'Progress Tracking',
+              description: 'Pantau perkembangan anak secara menyeluruh dengan laporan kemajuan yang mudah dipahami.',
             },
             {
               icon: '⚡',
               title: 'Lightning Fast',
-              description: 'Experience instant responses and real-time processing with our optimized infrastructure.',
+              description: 'Nikmati kecepatan akses data dan respons sistem yang optimal untuk pengalaman pengguna terbaik.',
             },
           ].map((feature, index) => (
             <div
