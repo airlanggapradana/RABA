@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-slate-950 via-amber-950 to-slate-950 text-white overflow-x-hidden">
+      className="min-h-screen bg-gradient-to-br from-slate-950 via-sky-950 to-slate-950 text-white overflow-x-hidden">
 
       {/* Animated Particles */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none">
@@ -75,7 +75,7 @@ export default function Home() {
           <img src={logo} alt="RABA logo" className="h-16 w-auto"/>
         </a>
         <ul className="hidden md:flex gap-10 list-none">
-          {['features', 'about', 'teams'].map((item) => (
+          {['features', 'product', 'about', 'teams'].map((item) => (
             <li key={item}>
               <button
                 onClick={() => scrollToSection(item)}
@@ -88,7 +88,7 @@ export default function Home() {
         </ul>
         <button
           onClick={() => navigate('auth')}
-          className="px-7 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/50">
+          className="px-7 py-3 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-sky-500/50">
           Get Started
         </button>
       </nav>
@@ -111,7 +111,7 @@ export default function Home() {
           className="absolute inset-0 bg-black/40 pointer-events-none"/>
         <div className="relative z-10 max-w-6xl text-center">
           <div
-            className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-orange-600/25 to-amber-500/50 border border-amber-500/50 rounded-full text-sm mb-8 animate-fadeInDown"
+            className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-sky-600/25 to-blue-500/50 border border-sky-500/50 rounded-full text-sm mb-8 animate-fadeInDown"
             role="status"
             aria-live="polite"
           >
@@ -127,7 +127,7 @@ export default function Home() {
             </span>
           </div>
           <h1
-            className="text-5xl md:text-7xl py-4 font-heading font-extrabold mb-6 bg-gradient-to-br from-orange-300 to-gray-200 bg-clip-text text-transparent animate-fadeInUp delay-200">
+            className="text-5xl md:text-7xl py-4 font-heading font-extrabold mb-6 bg-gradient-to-br from-sky-50 to-blue-100 bg-clip-text text-transparent animate-fadeInUp delay-200">
             Ruang Bermain Interaktif
             <br/>
             untuk Tumbuh Kembang Anak yang Inklusif
@@ -141,12 +141,12 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-6 justify-center animate-fadeInUp delay-600">
             <button
               onClick={() => scrollToSection('about')}
-              className="px-10 py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/60">
+              className="px-10 py-4 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky-500/60">
               Tentang RABA
             </button>
             <button
               onClick={() => scrollToSection('how-it-works')}
-              className="px-10 py-4 bg-white/5 border-2 border-amber-500/50 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:bg-amber-500/15 hover:border-amber-500/80 hover:-translate-y-1 backdrop-blur-md">
+              className="px-10 py-4 bg-white/5 border-2 border-sky-500/50 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:bg-sky-500/15 hover:border-sky-500/80 hover:-translate-y-1 backdrop-blur-md">
               Lihat Cara Kerjanya
             </button>
           </div>
@@ -159,7 +159,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-16 items-center mb-10">
             <div>
               <div
-                className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm mb-6">
+                className="inline-block px-6 py-2 bg-blue-500/15 border border-sky-500/30 rounded-full text-sm mb-6">
                 Tentang RABA
               </div>
               <h2 className="text-4xl md:text-5xl font-extrabold mb-6">Belajar Lewat Gerak, Tumbuh Lewat Interaksi.</h2>
@@ -191,11 +191,11 @@ export default function Home() {
 
           <div className="space-y-6 py-28" id={'how-it-works'}>
             <div
-              className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm">
+              className="inline-block px-6 py-2 bg-blue-500/15 border border-sky-500/30 rounded-full text-sm">
               Cara Kerja RABA
             </div>
 
-            <div className="p-6 bg-orange-500/10 border border-amber-500/30 rounded-2xl">
+            <div className="p-6 bg-blue-500/10 border border-sky-500/30 rounded-2xl">
               <p className="text-white/80 leading-relaxed">
                 RABA dikembangkan bersama guru PAUD dan komunitas desa sebagai solusi yang kontekstual, mudah
                 digunakan, dan dapat diadaptasi sesuai kebutuhan lingkungan belajar.
@@ -203,14 +203,14 @@ export default function Home() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-6 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md">
+              <div className="p-6 bg-blue/[0.03] border border-sky-500/20 rounded-2xl backdrop-blur-md">
                 <h4 className="text-lg font-semibold mb-2 text-amber-400">Interaksi Pijakan</h4>
                 <p className="text-white/70 leading-relaxed">
                   Setiap pijakan pada karpet memicu respons audio sederhana \- kata, instruksi, atau suara \- yang
                   mendorong anak untuk merespons, meniru, dan berinteraksi tanpa tekanan.
                 </p>
               </div>
-              <div className="p-6 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md">
+              <div className="p-6 bg-blue/[0.03] border border-sky-500/20 rounded-2xl backdrop-blur-md">
                 <h4 className="text-lg font-semibold mb-2 text-amber-400">Modular & Sederhana</h4>
                 <p className="text-white/70 leading-relaxed">
                   Dengan desain modular dan teknologi yang sederhana, RABA dapat digunakan di ruang kelas, posyandu,
@@ -219,9 +219,9 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="p-6 bg-orange-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-4">
+            <div className="p-6 bg-blue-500/10 border border-sky-500/30 rounded-2xl flex items-start gap-4">
               <div
-                className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center text-2xl shadow-lg animate-pulse transform transition-all duration-300 hover:scale-110"
+                className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-blu-400 flex items-center justify-center text-2xl shadow-lg animate-pulse transform transition-all duration-300 hover:scale-110"
                 aria-hidden="true"
                 title="Liveliness icon"
               >
@@ -239,7 +239,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-9">
             {/* VISI */}
             <div
-              className="p-10 bg-white/[0.03] border border-amber-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/20">
+              className="p-10 bg-white/[0.03] border border-sky-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-blue-500/[0.08] hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-500/20">
               <div
                 className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-500/30">
                 🌟
@@ -254,7 +254,7 @@ export default function Home() {
 
             {/* MISI */}
             <div
-              className="p-10 bg-white/[0.03] border border-amber-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/20">
+              className="p-10 bg-white/[0.03] border border-sky-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-blue-500/[0.08] hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-500/20">
               <div
                 className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-500/30">
                 🎯
@@ -278,7 +278,7 @@ export default function Home() {
 
             {/* GOALS */}
             <div
-              className="p-10 bg-white/[0.03] border border-amber-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/20">
+              className="p-10 bg-white/[0.03] border border-sky-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-blue-500/[0.08] hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-500/20">
               <div
                 className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-500/30">
                 🚀
@@ -305,7 +305,7 @@ export default function Home() {
       <section id="features" className="py-32 px-[5%]">
         <div className="text-center mb-20">
           <div
-            className="inline-block px-6 py-2 bg-orange-500/15 border border-amber-500/30 rounded-full text-sm mb-4">
+            className="inline-block px-6 py-2 bg-blue-500/15 border border-sky-500/30 rounded-full text-sm mb-4">
             Fitur
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">
@@ -340,7 +340,7 @@ export default function Home() {
           ].map((feature, index) => (
             <div
               key={index}
-              className="relative p-10 bg-white/[0.03] border border-amber-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-3 hover:bg-orange-500/[0.08] hover:border-amber-500/40 hover:shadow-2xl hover:shadow-orange-500/30 overflow-hidden group"
+              className="relative p-10 bg-white/[0.03] border border-sky-500/20 rounded-3xl backdrop-blur-md transition-all duration-300 hover:-translate-y-3 hover:bg-blue-500/[0.08] hover:border-sky-500/40 hover:shadow-2xl hover:shadow-blue-500/30 overflow-hidden group"
             >
               <div
                 className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-600"/>
@@ -356,7 +356,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="relative py-32 px-[5%] border-y border-amber-500/20 overflow-hidden">
+      <section className="relative py-32 px-[5%] border-y border-sky-500/20 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
           style={{
@@ -369,49 +369,52 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/40 pointer-events-none"/>
 
         <div className="relative z-10 text-center mb-20">
-          <div className="inline-block px-6 py-2 bg-amber-500/15 border border-amber-500/30 rounded-full text-sm mb-4">
+          <div className="inline-block px-6 py-2 bg-sky-500/15 border border-sky-500/30 rounded-full text-sm mb-4">
             Testimonials
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">What Our Clients Say</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">
+            Apa Kata Mereka Tentang RABA
+          </h2>
           <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Trusted by industry leaders and innovative startups worldwide
+            RABA telah membantu banyak guru PAUD dan orang tua dalam menciptakan pengalaman belajar yang lebih
+            interaktif dan bermakna bagi anak-anak mereka.
           </p>
         </div>
 
         <div className="relative z-10 grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
             {
-              quote: "RABA has completely transformed how we handle customer data. The AI insights are incredibly accurate and have helped us increase conversion by 40%.",
+              quote: "RABA telah benar-benar mengubah cara kami menangani data pelanggan. Wawasan AI-nya sangat akurat dan membantu kami meningkatkan konversi hingga 40%.",
               author: "Sarah Chen",
               role: "CEO, TechFlow",
               avatar: "SC"
             },
             {
-              quote: "The automation capabilities are mind-blowing. We've saved hundreds of hours each month and our team can now focus on strategic initiatives.",
+              quote: "Kemampuan otomatisasinya luar biasa. Kami menghemat ratusan jam setiap bulan dan tim kini dapat fokus pada inisiatif strategis.",
               author: "Michael Rodriguez",
               role: "Operations Director, StartupHub",
               avatar: "MR"
             },
             {
-              quote: "Best investment we've made this year. The ROI was evident within the first month. RABA's support team is also exceptional.",
+              quote: "Investasi terbaik yang kami lakukan tahun ini. ROI terlihat dalam bulan pertama. Tim dukungan RABA juga sangat responsif dan membantu.",
               author: "Emily Watson",
               role: "CTO, DataSync",
               avatar: "EW"
             },
             {
-              quote: "The natural language processing is phenomenal. Our non-technical team members can now query complex data without any training.",
+              quote: "Pemrosesan bahasa alaminya fenomenal. Anggota tim non-teknis kami sekarang dapat mengajukan pertanyaan pada data kompleks tanpa perlu pelatihan khusus.",
               author: "James Park",
               role: "VP of Analytics, CloudCore",
               avatar: "JP"
             },
             {
-              quote: "Security was our top concern, and RABA exceeded all expectations. Enterprise-grade protection with incredible performance.",
+              quote: "Keamanan adalah prioritas utama kami, dan RABA melampaui semua harapan. Perlindungan setara enterprise dengan performa yang sangat baik.",
               author: "Lisa Thompson",
               role: "CISO, SecureNet",
               avatar: "LT"
             },
             {
-              quote: "Integration was seamless. Within days, we had RABA working with all our existing tools. The API documentation is top-notch.",
+              quote: "Integrasinya mulus. Dalam beberapa hari, RABA sudah bekerja dengan semua alat yang kami pakai. Dokumentasi API sangat lengkap.",
               author: "David Kumar",
               role: "Lead Developer, DevPros",
               avatar: "DK"
@@ -419,7 +422,7 @@ export default function Home() {
           ].map((testimonial, index) => (
             <div
               key={index}
-              className="relative p-8 bg-white/[0.03] border border-amber-500/20 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-sky-500/[0.08] hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-500/20"
+              className="relative p-8 bg-white/[0.03] border border-sky-500/20 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-sky-500/[0.08] hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-500/20"
             >
               <div className="text-4xl text-sky-400 mb-4">"</div>
               <p className="text-white/80 mb-6 leading-relaxed">{testimonial.quote}</p>
@@ -443,7 +446,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <div
-              className="inline-block px-5 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full text-sm mb-4 backdrop-blur-sm">
+              className="inline-block px-5 py-2 bg-sky-500/10 border border-sky-500/20 rounded-full text-sm mb-4 backdrop-blur-sm">
               Tim Kami
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">
@@ -461,63 +464,63 @@ export default function Home() {
                 role: "Founder",
                 bio: "Pendidikan Bahasa dan Sastra Indonesia '23",
                 avatar: aura,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Airlangga Pradana Prakusa",
                 role: "Web Developer",
                 bio: "Teknik Informatika '24",
                 avatar: rangga,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Taqiyyah Nurul Azzah",
                 role: "Research and Development",
                 bio: "Fisioterapi '22",
                 avatar: taqiyyah,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Salsabila Malikatul Jannah",
                 role: "Research and Development",
                 bio: "Fisioterapi '22",
                 avatar: salsa,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Arina Ilman Naffah",
                 role: "Research and Development",
                 bio: "Teknik Elektro '24",
                 avatar: arina,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Dwi Rahmat Maulana",
                 role: "Chief Technology Officer",
                 bio: "Teknik Elektro '24",
                 avatar: dwi,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Ihsan Abdillah",
                 role: "Chief Technology Officer",
                 bio: "Teknik Elektro '24",
                 avatar: ihsan,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Nabiel Aqila Gandung",
                 role: "Documentation Specialist",
                 bio: "Psikologi '25",
                 avatar: aqil,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
               {
                 name: "Muhammad Hasbi Assidiqi",
                 role: "Web Developer",
                 bio: "Sistem Informasi '24",
                 avatar: hasbi,
-                gradient: "from-orange-500 to-amber-500"
+                gradient: "from-blue-500 to-sky-500"
               },
             ].map((member, index) => (
               <article
@@ -549,17 +552,17 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-32 px-[5%] text-center">
         <div
-          className="bg-amber-900/50 backdrop-blur-2xl border border-white/10 rounded-3xl p-16 max-w-4xl text-center shadow-2xl mx-auto">
+          className="bg-sky-900/50 backdrop-blur-2xl border border-white/10 rounded-3xl p-16 max-w-4xl text-center shadow-2xl mx-auto">
           <h1
-            className="text-5xl font-bold mb-6 leading-tight bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+            className="text-5xl font-bold mb-6 leading-tight bg-gradient-to-r from-white to-sky-200 bg-clip-text text-transparent">
             Siap Mendukung Tumbuh Kembang Anak dengan Cara yang Lebih Bermakna?
           </h1>
-          <p className="text-xl leading-relaxed text-amber-100 mb-10">
+          <p className="text-xl leading-relaxed text-sky-100 mb-10">
             Bergabunglah dengan ratusan guru PAUD dan orang tua yang telah menggunakan RABA untuk mendukung stimulasi
             bahasa, sensorik, dan fokus anak melalui bermain yang terarah dan inklusif.
           </p>
           <button
-            className="bg-gradient-to-r from-orange-500 to-amber-500 px-12 py-4 rounded-full font-bold text-lg hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/40 transition-all">
+            className="bg-gradient-to-r from-blue-500 to-sky-500 px-12 py-4 rounded-full font-bold text-lg hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/40 transition-all">
             Coba RABA Gratis
           </button>
         </div>
@@ -567,44 +570,44 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-16 px-[5%] border-t border-purple-500/20">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
-          {[
-            {
-              title: 'Product',
-              links: ['Features', 'Pricing', 'API', 'Documentation'],
-            },
-            {
-              title: 'Company',
-              links: ['About', 'Careers', 'Blog', 'Press'],
-            },
-            {
-              title: 'Resources',
-              links: ['Help Center', 'Community', 'Guides', 'Webinars'],
-            },
-            {
-              title: 'Legal',
-              links: ['Privacy', 'Terms', 'Security', 'Cookies'],
-            },
-          ].map((section, index) => (
-            <div key={index}>
-              <h3 className="text-amber-500 font-semibold mb-4">{section.title}</h3>
-              <ul className="space-y-2">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <a
-                      href="#"
-                      className="text-white/60 hover:text-white transition-colors duration-300"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        {/*<div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">*/}
+        {/*  {[*/}
+        {/*    {*/}
+        {/*      title: 'Product',*/}
+        {/*      links: ['Features', 'Pricing', 'API', 'Documentation'],*/}
+        {/*    },*/}
+        {/*    {*/}
+        {/*      title: 'Company',*/}
+        {/*      links: ['About', 'Careers', 'Blog', 'Press'],*/}
+        {/*    },*/}
+        {/*    {*/}
+        {/*      title: 'Resources',*/}
+        {/*      links: ['Help Center', 'Community', 'Guides', 'Webinars'],*/}
+        {/*    },*/}
+        {/*    {*/}
+        {/*      title: 'Legal',*/}
+        {/*      links: ['Privacy', 'Terms', 'Security', 'Cookies'],*/}
+        {/*    },*/}
+        {/*  ].map((section, index) => (*/}
+        {/*    <div key={index}>*/}
+        {/*      <h3 className="text-amber-500 font-semibold mb-4">{section.title}</h3>*/}
+        {/*      <ul className="space-y-2">*/}
+        {/*        {section.links.map((link, linkIndex) => (*/}
+        {/*          <li key={linkIndex}>*/}
+        {/*            <a*/}
+        {/*              href="#"*/}
+        {/*              className="text-white/60 hover:text-white transition-colors duration-300"*/}
+        {/*            >*/}
+        {/*              {link}*/}
+        {/*            </a>*/}
+        {/*          </li>*/}
+        {/*        ))}*/}
+        {/*      </ul>*/}
+        {/*    </div>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
         <div className="pt-8 border-t border-purple-500/20 text-center text-white/50">
-          <p>&copy; 2025 RABA. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} RABA. All rights reserved.</p>
         </div>
       </footer>
     </div>
