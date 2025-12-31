@@ -1,99 +1,54 @@
-import {Button} from "@/components/ui/button";
-import {Menu, X} from "lucide-react";
-import {useState} from "react";
+import logo from "@/assets/logo.webp";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
-import logo from "@/assets/logo.webp"
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    element?.scrollIntoView({behavior: "smooth"});
-    setIsMenuOpen(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.pageYOffset > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
   };
-
+  const navigate = useNavigate();
   return (
-    <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <img src={logo} alt={'logo'} className={'h-14'}></img>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
-          <button
-            onClick={() => scrollToSection("about")}
-            className="text-foreground hover:text-primary transition-[var(--transition-smooth)]"
-          >
-            About
-          </button>
-          <button
-            onClick={() => scrollToSection("features")}
-            className="text-foreground hover:text-primary transition-[var(--transition-smooth)]"
-          >
-            Features
-          </button>
-          <button
-            onClick={() => scrollToSection("team")}
-            className="text-foreground hover:text-primary transition-[var(--transition-smooth)]"
-          >
-            Team
-          </button>
-          <button
-            onClick={() => scrollToSection("testimonials")}
-            className="text-foreground hover:text-primary transition-[var(--transition-smooth)]"
-          >
-            Testimonials
-          </button>
-          <Button variant="default" size="sm" onClick={() => navigate('/auth')}>
-            Get Started
-          </Button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden text-foreground hover:text-primary transition-[var(--transition-smooth)]"
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X className="w-6 h-6"/> : <Menu className="w-6 h-6"/>}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-background border-b border-border">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center transition-all duration-300 ${
+        scrolled
+          ? 'py-4 px-[5%] bg-slate-950/95 backdrop-blur-md'
+          : 'py-6 px-[5%] bg-slate-950/80 backdrop-blur-md'
+      } border-b border-purple-500/10`}
+    >
+      <a href="#" className="flex items-center">
+        <img src={logo} alt="RABA logo" className="h-16 w-auto"/>
+      </a>
+      <ul className="hidden md:flex gap-10 list-none">
+        {['features', 'product', 'about', 'teams'].map((item) => (
+          <li key={item}>
             <button
-              onClick={() => scrollToSection("about")}
-              className="text-foreground hover:text-primary transition-[var(--transition-smooth)] text-left py-2"
+              onClick={() => scrollToSection(item)}
+              className="text-white/80 font-medium transition-all duration-300 hover:text-white relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-sky-500 after:to-sky-500 after:transition-all after:duration-300 hover:after:w-full capitalize"
             >
-              About
+              {item}
             </button>
-            <button
-              onClick={() => scrollToSection("features")}
-              className="text-foreground hover:text-primary transition-[var(--transition-smooth)] text-left py-2"
-            >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection("team")}
-              className="text-foreground hover:text-primary transition-[var(--transition-smooth)] text-left py-2"
-            >
-              Team
-            </button>
-            <button
-              onClick={() => scrollToSection("testimonials")}
-              className="text-foreground hover:text-primary transition-[var(--transition-smooth)] text-left py-2"
-            >
-              Testimonials
-            </button>
-            <Button variant="default" size="sm" className="w-full" onClick={() => navigate('/auth')}>
-              Get Started
-            </Button>
-          </div>
-        </div>
-      )}
+          </li>
+        ))}
+      </ul>
+      <button
+        onClick={() => navigate('auth')}
+        className="px-7 py-3 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-sky-500/50">
+        Get Started
+      </button>
     </nav>
   );
 };
