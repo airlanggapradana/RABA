@@ -14,9 +14,9 @@ const Products = () => {
       `,
           backgroundSize: "40px 40px",
           WebkitMaskImage:
-            "radial-gradient(ellipse 100% 80% at 50% 100%, #000 50%, transparent 90%)",
+            "radial-gradient(ellipse 100% 60% at 50% 100%, #000 50%, transparent 90%)",
           maskImage:
-            "radial-gradient(ellipse 100% 80% at 50% 100%, #000 50%, transparent 90%)",
+            "radial-gradient(ellipse 100% 60% at 50% 100%, #000 50%, transparent 90%)",
         }}
       />
       {/* Your Content/Components */}
@@ -102,7 +102,7 @@ const Products = () => {
 
           {/* Product Details */}
           <div
-            className="rounded-2xl border border-amber-500 bg-gradient-to-b from-amber-500 to-sky-900 backdrop-blur-md p-6 sm:p-10 shadow-[var(--shadow-soft)] mb-14 sm:mb-20">
+            className="rounded-2xl border border-blue-500 bg-gradient-to-b from-blue-600 to-sky-900 backdrop-blur-md p-6 sm:p-10 shadow-[var(--shadow-soft)] mb-14 sm:mb-20">
             <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-8 text-center">
               Apa yang Membuat RABA Berbeda
             </h3>
@@ -110,7 +110,7 @@ const Products = () => {
               <div className="group rounded-xl border border-amber-500 bg-white/5 p-5 hover:bg-white/10 transition">
                 <div className="flex items-center gap-2 mb-2">
                   <Award className="w-5 h-5 text-amber-400"/>
-                  <h4 className="font-semibold text-gray-100">Belajar Aktif Tanpa Layar</h4>
+                  <h4 className="font-semibold text-amber-300">Belajar Aktif Tanpa Layar</h4>
                 </div>
                 <p className="text-gray-300 text-sm leading-relaxed">
                   RABA mengajak anak belajar melalui gerak, pijakan, dan respons suara sederhana. Tanpa layar dan
@@ -120,7 +120,7 @@ const Products = () => {
               <div className="group rounded-xl border border-amber-500 bg-white/5 p-5 hover:bg-white/10 transition">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-5 h-5 text-sky-300"/>
-                  <h4 className="font-semibold text-gray-100">Pendampingan Lebih Bermakna</h4>
+                  <h4 className="font-semibold text-amber-300">Pendampingan Lebih Bermakna</h4>
                 </div>
                 <p className="text-gray-300 text-sm leading-relaxed">
                   Dirancang untuk digunakan bersama guru dan orang tua. Guided play menjaga fokus, rasa aman, dan
@@ -130,7 +130,7 @@ const Products = () => {
               <div className="group rounded-xl border border-amber-500 bg-white/5 p-5 hover:bg-white/10 transition">
                 <div className="flex items-center gap-2 mb-2">
                   <Clock className="w-5 h-5 text-amber-300"/>
-                  <h4 className="font-semibold text-gray-100">Fleksibel dan Inklusif</h4>
+                  <h4 className="font-semibold text-amber-300">Fleksibel dan Inklusif</h4>
                 </div>
                 <p className="text-gray-300 text-sm leading-relaxed">
                   Cocok di kelas PAUD, posyandu, hingga rumah. Mendukung kebutuhan stimulasi anak yang beragam.

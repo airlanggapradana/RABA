@@ -33,7 +33,7 @@ const Navbar = () => {
         <img src={logo} alt="RABA logo" className="h-16 w-auto"/>
       </a>
       <ul className="hidden md:flex gap-10 list-none">
-        {['features', 'product', 'about', 'teams'].map((item) => (
+        {['features', 'products', 'about', 'teams'].map((item) => (
           <li key={item}>
             <button
               onClick={() => scrollToSection(item)}
