@@ -8,9 +8,15 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
 import logo from "@/assets/logo.webp"
 import {useNavigate} from "react-router";
+import {authService} from "@/utils/authService.ts";
+import {toast} from "sonner";
+import {useState} from "react";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<"CHILD" | "PARENT" | "TEACHER">("CHILD");
+
   const form = useForm<LoginSchema>({
     defaultValues: {
       email: "",
@@ -24,29 +30,44 @@ const Auth = () => {
       email: "",
       fullName: "",
       password: "",
+      role: "CHILD",
     },
     resolver: zodResolver(signupSchema),
   })
 
   const handleSignup: SubmitHandler<SignupSchema> = async (data) => {
-    await new Promise(resolve => {
-      setTimeout(() => {
-        console.log(data);
-        resolve(true);
-      }, 1000);
-    })
-    navigate('/dashboard');
+    setIsLoading(true);
+    try {
+      const res = await authService.register(data.email, data.password, data.fullName, data.role);
+      toast.success("Registration successful! Please login.");
+      formRegister.reset();
+    } catch (err) {
+      toast.error("Registration failed");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    await new Promise(resolve => {
-      setTimeout(() => {
-        console.log(data);
-        resolve(true);
-      }, 1000);
-    })
-    navigate('/dashboard');
+    setIsLoading(true);
+    try {
+      const res = await authService.login(data.email, data.password);
+      authService.saveToken(res.token, res.role, res.userId);
+      toast.success("Login successful!");
+      
+      // Route ke dashboard sesuai role
+      if (res.role === "TEACHER") navigate('/dashboard/teacher');
+      else if (res.role === "PARENT") navigate('/dashboard/parent');
+      else navigate('/dashboard/child');
+    } catch (err) {
+      toast.error("Login failed");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
@@ -100,8 +121,8 @@ const Auth = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting ? "Loading..." : "Login"}
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Logging in..." : "Login"}
                   </Button>
                 </form>
               </Form>
@@ -112,17 +133,12 @@ const Auth = () => {
                 <form onSubmit={formRegister.handleSubmit(handleSignup)} className="space-y-4">
                   <FormField
                     control={formRegister.control}
-                    name="fullName"
+                    name="email"
                     render={({field}) => (
                       <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input
-                            id="signup-name"
-                            type="text"
-                            placeholder="John Doe"
-                            {...field}
-                          />
+                          <Input type="email" placeholder="you@example.com" {...field} />
                         </FormControl>
                         <FormMessage/>
                       </FormItem>
@@ -130,17 +146,12 @@ const Auth = () => {
                   />
                   <FormField
                     control={formRegister.control}
-                    name="email"
+                    name="fullName"
                     render={({field}) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input
-                            id="signup-email"
-                            type="email"
-                            placeholder="you@example.com"
-                            {...field}
-                          />
+                          <Input placeholder="John Doe" {...field} />
                         </FormControl>
                         <FormMessage/>
                       </FormItem>
@@ -153,19 +164,31 @@ const Auth = () => {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input
-                            id="signup-password"
-                            type="password"
-                            placeholder="••••••••"
-                            {...field}
-                          />
+                          <Input type="password" placeholder="••••••••" {...field} />
                         </FormControl>
                         <FormMessage/>
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full" disabled={formRegister.formState.isSubmitting}>
-                    {formRegister.formState.isSubmitting ? "Loading..." : "Sign Up"}
+                  <FormField
+                    control={formRegister.control}
+                    name="role"
+                    render={({field}) => (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <FormControl>
+                          <select {...field} className="w-full border rounded px-2 py-2 text-sm">
+                            <option value="CHILD">Student</option>
+                            <option value="PARENT">Parent</option>
+                            <option value="TEACHER">Teacher</option>
+                          </select>
+                        </FormControl>
+                        <FormMessage/>
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Registering..." : "Sign Up"}
                   </Button>
                 </form>
               </Form>

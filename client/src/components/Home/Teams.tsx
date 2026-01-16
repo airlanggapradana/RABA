@@ -6,8 +6,6 @@ import arina from "@/assets/foto_tim_webp/arina.webp"
 import dwi from "@/assets/foto_tim_webp/Dwi Rahmat Maulana.webp"
 import ihsan from "@/assets/foto_tim_webp/Ihsan Abdillah.webp"
 import aqil from "@/assets/foto_tim_webp/Nabiel Aqila Gandung.webp"
-import alfin from "@/assets/foto_tim_webp/Alfin Andhika Mardanni.webp"
-import hafidh from "@/assets/foto_tim_webp/Hafidh Erli Nurdin Pratama.webp"
 import hasbi from "@/assets/foto_tim_webp/Muhammad Hasbi Assidiqi.webp"
 
 const Teams = () => {
@@ -44,14 +42,7 @@ const Teams = () => {
               gradient: "from-blue-500 to-sky-500"
             },
             {
-              name: "Alfin Andhika Mardanni",
-              role: "Web Developer",
-              bio: "Teknik Informatika '24",
-              avatar: alfin,
-              gradient: "from-blue-500 to-sky-500"
-            },
-            {
-              name: "Taqiyyah Nurul 'Azzah",
+              name: "Taqiyyah Nurul Azzah",
               role: "Research and Development",
               bio: "Fisioterapi '22",
               avatar: taqiyyah,
@@ -65,7 +56,7 @@ const Teams = () => {
               gradient: "from-blue-500 to-sky-500"
             },
             {
-              name: "Arina Ilman Nafi'ah",
+              name: "Arina Ilman Naffah",
               role: "Research and Development",
               bio: "Teknik Elektro '24",
               avatar: arina,
@@ -83,13 +74,6 @@ const Teams = () => {
               role: "Chief Technology Officer",
               bio: "Teknik Elektro '24",
               avatar: ihsan,
-              gradient: "from-blue-500 to-sky-500"
-            },
-            {
-              name: "Hafidh Erli Nurdin Pratama",
-              role: "Research and Development",
-              bio: "Fisioterapi '23",
-              avatar: hafidh,
               gradient: "from-blue-500 to-sky-500"
             },
             {
