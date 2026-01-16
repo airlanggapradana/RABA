@@ -1,0 +1,80 @@
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
+
+const char* ssid = "WIFI_NAME";
+const char* password = "WIFI_PASSWORD";
+const char* serverName = "http://localhost:8080";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected");
+}
+
+void loop() {
+  // Login
+  if (WiFi.connected()) {
+    HTTPClient http;
+    String loginUrl = String(serverName) + "/auth/login";
+    
+    http.begin(loginUrl);
+    http.addHeader("Content-Type", "application/json");
+    
+    String jsonPayload = "{\"email\":\"student@test.com\",\"password\":\"password123\"}";
+    int httpResponseCode = http.POST(jsonPayload);
+    
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println(httpResponseCode);
+      Serial.println(response);
+      
+      // Parse JSON
+      StaticJsonDocument<200> doc;
+      deserializeJson(doc, response);
+      String token = doc["token"];
+      
+      // Mark audio as opened
+      markAudioOpened(token, "audio-id-here");
+    }
+    http.end();
+  }
+  
+  delay(10000);
+}
+
+void markAudioOpened(String token, String audioId) {
+  HTTPClient http;
+  String url = String(serverName) + "/audio/mark-opened";
+  
+  http.begin(url);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + token);
+  
+  String jsonPayload = "{\"audioId\":\"" + audioId + "\"}";
+  int httpResponseCode = http.POST(jsonPayload);
+  
+  Serial.println("Mark opened response: " + String(httpResponseCode));
+  http.end();
+}
+
+void getMyProgress(String token) {
+  HTTPClient http;
+  String url = String(serverName) + "/me/progress";
+  
+  http.begin(url);
+  http.addHeader("Authorization", "Bearer " + token);
+  
+  int httpResponseCode = http.GET();
+  
+  if (httpResponseCode > 0) {
+    String response = http.getString();
+    Serial.println(response);
+  }
+  http.end();
+}
