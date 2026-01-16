@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  /// Matches: public.profiles
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @db.Text
+  fullName  String   @db.Text
+  password  String   @db.Text
+  role      Role     @default(USER)
+  createdAt DateTime @default(now()) @db.Timestamptz
+
+  // relations
+  images       Image[]        @relation("profile_images")
+  audioFiles   AudioFile[]    @relation("profile_audioFiles")
+  userProgress UserProgress[] @relation("profile_progress")
+
+  @@map("profiles")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Image {
+  /// Matches: public.images
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String   @db.Text
+  description String?  @db.Text
+  imageUrl    String   @db.Text
+  createdAt   DateTime @default(now()) @db.Timestamptz
+  createdBy   String?  @db.Uuid
+
+  // relation to Profile (created_by -> profiles.id) with ON DELETE CASCADE
+  createdByProfile Profile? @relation("profile_images", fields: [createdBy], references: [id], onDelete: Cascade)
+
+  // relation to many-to-many join
+  audioRelations AudioImageRelation[]
+
+  @@map("images")
+}
+
+model AudioFile {
+  /// Matches: public.audio_files
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String   @db.Text
+  description String?  @db.Text
+  audioUrl    String   @db.Text
+  duration    Int? // INTEGER
+  createdAt   DateTime @default(now()) @db.Timestamptz
+  createdBy   String?  @db.Uuid
+
+  createdByProfile Profile? @relation("profile_audioFiles", fields: [createdBy], references: [id], onDelete: Cascade)
+
+  // relations
+  audioRelations AudioImageRelation[]
+  userProgresses UserProgress[]
+
+  @@map("audio_files")
+}
+
+model AudioImageRelation {
+  /// Matches: public.audio_image_relations
+  id        String   @id @default(uuid()) @db.Uuid
+  audioId   String   @db.Uuid
+  imageId   String   @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamptz
+
+  audio AudioFile @relation(fields: [audioId], references: [id], onDelete: Cascade)
+  image Image     @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@unique([audioId, imageId])
+  @@map("audio_image_relations")
+}
+
+model UserProgress {
+  /// Matches: public.user_progress
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @db.Uuid
+  audioId      String    @db.Uuid
+  openedAt     DateTime? @db.Timestamptz
+  downloadedAt DateTime? @db.Timestamptz
+  createdAt    DateTime  @default(now()) @db.Timestamptz
+
+  user  Profile   @relation("profile_progress", fields: [userId], references: [id], onDelete: Cascade)
+  audio AudioFile @relation(fields: [audioId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, audioId])
+  @@map("user_progress")
+}
