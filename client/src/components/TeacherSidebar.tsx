@@ -1,21 +1,23 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Music, Image, Plus, Trash2 } from "lucide-react";
-import { toast } from "sonner";
+import {useState} from "react";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Music, Image, Plus} from "lucide-react";
+import {toast} from "sonner";
 import Swal from "sweetalert2";
 
 interface TeacherSidebarProps {
   onAudioAdded?: () => void;
 }
 
-export const TeacherSidebar = ({ onAudioAdded }: TeacherSidebarProps) => {
+export const TeacherSidebar = ({onAudioAdded}: TeacherSidebarProps) => {
   const [audioTitle, setAudioTitle] = useState("");
   const [audioDescription, setAudioDescription] = useState("");
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleAudioFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -45,9 +47,9 @@ export const TeacherSidebar = ({ onAudioAdded }: TeacherSidebarProps) => {
         formData.append("imageFile", imageFile);
       }
 
-      const res = await fetch("http://localhost:8080/teacher/upload-audio", {
+      const res = await fetch(`${API_URL}/teacher/upload-audio`, {
         method: "POST",
-        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
+        headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`},
         body: formData
       });
 
@@ -64,7 +66,7 @@ export const TeacherSidebar = ({ onAudioAdded }: TeacherSidebarProps) => {
       setAudioDescription("");
       setAudioFile(null);
       setImageFile(null);
-      
+
       if (onAudioAdded) onAudioAdded();
     } catch (error) {
       toast.error("Upload failed");
@@ -84,7 +86,7 @@ export const TeacherSidebar = ({ onAudioAdded }: TeacherSidebarProps) => {
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Music className="h-5 w-5" />
+            <Music className="h-5 w-5"/>
             Audio File
           </CardTitle>
         </CardHeader>
@@ -127,7 +129,7 @@ export const TeacherSidebar = ({ onAudioAdded }: TeacherSidebarProps) => {
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Image className="h-5 w-5" />
+            <Image className="h-5 w-5"/>
             Image (Optional)
           </CardTitle>
         </CardHeader>
@@ -152,7 +154,7 @@ export const TeacherSidebar = ({ onAudioAdded }: TeacherSidebarProps) => {
             className="w-full gap-2"
             disabled={isUploading}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4"/>
             {isUploading ? "Uploading..." : "Upload Audio & Image"}
           </Button>
         </CardContent>

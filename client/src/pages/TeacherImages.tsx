@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Image as ImageIcon, Plus, Trash2 } from "lucide-react";
-import { toast } from "sonner";
+import {useEffect, useState} from "react";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Image as ImageIcon, Plus, Trash2} from "lucide-react";
+import {toast} from "sonner";
 import Swal from "sweetalert2";
-import { Modal } from "@/components/ui/modal";
-import { getImages, authService } from "@/utils/authService";
+import {Modal} from "@/components/ui/modal";
+import {getImages, authService} from "@/utils/authService";
 
 interface Image {
   id: string;
@@ -22,6 +22,8 @@ const TeacherImages = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchImagesData = async () => {
     const token = authService.getToken();
@@ -56,9 +58,9 @@ const TeacherImages = () => {
       formData.append("description", newDescription);
       formData.append("image", imageFile);
 
-      const res = await fetch("http://localhost:8080/teacher/upload-image", {
+      const res = await fetch(`${API_URL}/teacher/upload-image`, {
         method: "POST",
-        headers: { "Authorization": `Bearer ${token}` },
+        headers: {"Authorization": `Bearer ${token}`},
         body: formData
       });
 
@@ -97,10 +99,12 @@ const TeacherImages = () => {
 
     if (!confirm.isConfirmed) return;
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
     try {
-      const res = await fetch(`http://localhost:8080/images/${imageId}`, {
+      const res = await fetch(`${API_URL}/images/${imageId}`, {
         method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: {"Authorization": `Bearer ${token}`}
       });
 
       if (!res.ok) throw new Error("Delete failed");
@@ -117,13 +121,14 @@ const TeacherImages = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
+          <h1
+            className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
             Images
           </h1>
           <p className="text-muted-foreground">Manage your image library</p>
         </div>
         <Button onClick={() => setIsModalOpen(true)} className="gap-2">
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4"/>
           Add Image
         </Button>
       </div>
@@ -164,7 +169,7 @@ const TeacherImages = () => {
                     className="text-destructive hover:bg-destructive/10 h-8"
                     onClick={() => handleDeleteImage(image.id)}
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Trash2 className="h-3 w-3"/>
                   </Button>
                 </div>
               </CardContent>

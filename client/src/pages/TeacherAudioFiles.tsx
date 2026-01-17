@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Music, Plus, Trash2, Edit } from "lucide-react";
-import { toast } from "sonner";
+import {useEffect, useState} from "react";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Music, Plus, Trash2, Edit} from "lucide-react";
+import {toast} from "sonner";
 import Swal from "sweetalert2";
-import { getAudioFiles } from "@/utils/authService";
-import { Modal } from "@/components/ui/modal";
+import {getAudioFiles} from "@/utils/authService";
+import {Modal} from "@/components/ui/modal";
 
 interface AudioFile {
   id: string;
@@ -22,6 +22,8 @@ const TeacherAudioFiles = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [audioFile, setAudioFile] = useState<File | null>(null);
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchAudios = async () => {
@@ -51,9 +53,9 @@ const TeacherAudioFiles = () => {
       formData.append("description", newDescription);
       formData.append("audio", audioFile);
 
-      const res = await fetch("http://localhost:8080/teacher/upload-audio", {
+      const res = await fetch(`${API_URL}/teacher/upload-audio`, {
         method: "POST",
-        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
+        headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`},
         body: formData
       });
 
@@ -90,10 +92,12 @@ const TeacherAudioFiles = () => {
 
     if (!confirm.isConfirmed) return;
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
     try {
-      const res = await fetch(`http://localhost:8080/audio/${audioId}`, {
+      const res = await fetch(`${API_URL}/audio/${audioId}`, {
         method: "DELETE",
-        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+        headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`}
       });
 
       if (!res.ok) throw new Error("Delete failed");
@@ -111,13 +115,14 @@ const TeacherAudioFiles = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
+          <h1
+            className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
             Audio Files
           </h1>
           <p className="text-muted-foreground">Manage your audio library</p>
         </div>
         <Button onClick={() => setIsModalOpen(true)} className="gap-2">
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4"/>
           Add Audio
         </Button>
       </div>
@@ -133,7 +138,7 @@ const TeacherAudioFiles = () => {
               <CardHeader className="pb-3">
                 <div className="flex items-start gap-3">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-purple-400 to-pink-500">
-                    <Music className="h-5 w-5 text-white" />
+                    <Music className="h-5 w-5 text-white"/>
                   </div>
                   <div className="flex-1 min-w-0">
                     <CardTitle className="truncate">{audio.title}</CardTitle>
@@ -159,7 +164,7 @@ const TeacherAudioFiles = () => {
                     className="text-destructive hover:bg-destructive/10"
                     onClick={() => handleDeleteAudio(audio.id)}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-4 w-4"/>
                   </Button>
                 </div>
               </CardContent>

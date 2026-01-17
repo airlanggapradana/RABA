@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, Trash2, Users } from "lucide-react";
-import { toast } from "sonner";
+import {useEffect, useState} from "react";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Plus, Trash2, Users} from "lucide-react";
+import {toast} from "sonner";
 import Swal from "sweetalert2";
-import { Modal } from "@/components/ui/modal";
-import { authService, getAllStudents, getAllParents } from "@/utils/authService";
+import {Modal} from "@/components/ui/modal";
+import {authService, getAllStudents, getAllParents} from "@/utils/authService";
 
 interface Student {
   id: string;
@@ -35,6 +35,8 @@ const TeacherParentLink = () => {
   const [selectedParent, setSelectedParent] = useState<string>("");
   const [selectedStudent, setSelectedStudent] = useState<string>("");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const token = authService.getToken();
 
   useEffect(() => {
@@ -51,8 +53,8 @@ const TeacherParentLink = () => {
         setParents(parentsData);
 
         // Fetch parent links
-        const res = await fetch("http://localhost:8080/teacher/parent-links", {
-          headers: { "Authorization": `Bearer ${token}` }
+        const res = await fetch(`${API_URL}/teacher/parent-links`, {
+          headers: {"Authorization": `Bearer ${token}`}
         });
         if (res.ok) {
           const data = await res.json();
@@ -84,14 +86,16 @@ const TeacherParentLink = () => {
       return;
     }
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
     try {
-      const res = await fetch("http://localhost:8080/teacher/link-parent-to-student", {
+      const res = await fetch(`${API_URL}/teacher/link-parent-to-student`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({ parentEmail: parent.email, studentId: selectedStudent })
+        body: JSON.stringify({parentEmail: parent.email, studentId: selectedStudent})
       });
 
       if (!res.ok) {
@@ -111,8 +115,8 @@ const TeacherParentLink = () => {
       setIsModalOpen(false);
 
       // Refresh links
-      const res2 = await fetch("http://localhost:8080/teacher/parent-links", {
-        headers: { "Authorization": `Bearer ${token}` }
+      const res2 = await fetch(`${API_URL}/teacher/parent-links`, {
+        headers: {"Authorization": `Bearer ${token}`}
       });
       if (res2.ok) {
         const data = await res2.json();
@@ -138,17 +142,17 @@ const TeacherParentLink = () => {
     if (!confirm.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:8080/teacher/parent-links/${linkId}`, {
+      const res = await fetch(`${API_URL}/teacher/parent-links/${linkId}`, {
         method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: {"Authorization": `Bearer ${token}`}
       });
 
       if (!res.ok) throw new Error("Delete failed");
 
       toast.success("Link removed");
 
-      const res2 = await fetch("http://localhost:8080/teacher/parent-links", {
-        headers: { "Authorization": `Bearer ${token}` }
+      const res2 = await fetch("${API_URL}/teacher/parent-links", {
+        headers: {"Authorization": `Bearer ${token}`}
       });
       if (res2.ok) {
         const data = await res2.json();
@@ -164,13 +168,14 @@ const TeacherParentLink = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
+          <h1
+            className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
             Link Parent to Student
           </h1>
           <p className="text-muted-foreground">Manage parent-student relationships</p>
         </div>
         <Button onClick={() => setIsModalOpen(true)} className="gap-2">
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4"/>
           New Link
         </Button>
       </div>
@@ -186,7 +191,7 @@ const TeacherParentLink = () => {
               <CardContent className="pt-6 flex items-center justify-between">
                 <div>
                   <p className="font-semibold flex items-center gap-2">
-                    <Users className="h-4 w-4" />
+                    <Users className="h-4 w-4"/>
                     {link.parent.fullName}
                   </p>
                   <p className="text-sm text-muted-foreground">Parent of: {link.child.fullName}</p>
@@ -197,7 +202,7 @@ const TeacherParentLink = () => {
                   onClick={() => handleRemoveLink(link.id)}
                   className="text-destructive hover:bg-destructive/10"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-4 w-4"/>
                 </Button>
               </CardContent>
             </Card>
