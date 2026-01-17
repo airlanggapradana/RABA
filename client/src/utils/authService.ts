@@ -115,6 +115,7 @@ export const getAudioFiles = async (): Promise<AudioFile[]> => {
   const data = await res.json();
 
   // Convert all URLs to absolute
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return data.map((audio: any) => ({
     ...audio,
     audioUrl: getAbsoluteUrl(audio.audioUrl)
