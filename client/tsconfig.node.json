@@ -26,5 +26,8 @@
   },
   "include": [
     "vite.config.ts"
-  ]
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off"
+  }
 }

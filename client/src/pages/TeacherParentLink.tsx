@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Plus, Trash2, Users} from "lucide-react";
 import {toast} from "sonner";

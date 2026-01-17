@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardContent,} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
-import {Image as ImageIcon, Plus, Trash2} from "lucide-react";
+import {Plus, Trash2} from "lucide-react";
 import {toast} from "sonner";
 import Swal from "sweetalert2";
 import {Modal} from "@/components/ui/modal";
