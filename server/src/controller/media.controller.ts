@@ -3,12 +3,13 @@ import prisma from "../../prisma/prisma";
 import { AuthRequest } from "../middleware/auth";
 import path from "path";
 import fs from "fs";
+import { uploadToCloudinary } from "../utils/cloudinary";
 
-const UPLOAD_DIR = path.join(__dirname, "../../uploads");
+const TEMP_DIR = path.join(__dirname, "../../temp");
 
-// Ensure upload directory exists
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+// Ensure temp directory exists
+if (!fs.existsSync(TEMP_DIR)) {
+  fs.mkdirSync(TEMP_DIR, { recursive: true });
 }
 
 export const uploadAudio = async (req: AuthRequest, res: Response) => {
@@ -21,31 +22,34 @@ export const uploadAudio = async (req: AuthRequest, res: Response) => {
   }
 
   try {
-    // Save file
-    const fileName = `${Date.now()}-${audioFile.name}`;
-    const filePath = path.join(UPLOAD_DIR, "audio", fileName);
+    // Save to temp location
+    const tempFileName = `${Date.now()}-${audioFile.name}`;
+    const tempPath = path.join(TEMP_DIR, tempFileName);
     
-    // Create audio directory if not exists
-    if (!fs.existsSync(path.join(UPLOAD_DIR, "audio"))) {
-      fs.mkdirSync(path.join(UPLOAD_DIR, "audio"), { recursive: true });
+    await audioFile.mv(tempPath);
+
+    // Upload to Cloudinary
+    const cloudinaryUrl = await uploadToCloudinary(tempPath, "audio", "video");
+
+    // Delete temp file
+    if (fs.existsSync(tempPath)) {
+      fs.unlinkSync(tempPath);
     }
 
-    await audioFile.mv(filePath);
-
-    // Create database record
+    // Create database record in Neon DB
     const audio = await prisma.audioFile.create({
       data: {
         title,
         description,
-        audioUrl: `/uploads/audio/${fileName}`,
+        audioUrl: cloudinaryUrl,
         createdBy: userId
       }
     });
 
     res.json(audio);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Upload failed" });
+    console.error("Upload audio error:", error);
+    res.status(500).json({ message: "Upload failed", error: String(error) });
   }
 };
 
@@ -59,31 +63,34 @@ export const uploadImage = async (req: AuthRequest, res: Response) => {
   }
 
   try {
-    // Save file
-    const fileName = `${Date.now()}-${imageFile.name}`;
-    const filePath = path.join(UPLOAD_DIR, "images", fileName);
+    // Save to temp location
+    const tempFileName = `${Date.now()}-${imageFile.name}`;
+    const tempPath = path.join(TEMP_DIR, tempFileName);
     
-    // Create images directory if not exists
-    if (!fs.existsSync(path.join(UPLOAD_DIR, "images"))) {
-      fs.mkdirSync(path.join(UPLOAD_DIR, "images"), { recursive: true });
+    await imageFile.mv(tempPath);
+
+    // Upload to Cloudinary
+    const cloudinaryUrl = await uploadToCloudinary(tempPath, "images", "image");
+
+    // Delete temp file
+    if (fs.existsSync(tempPath)) {
+      fs.unlinkSync(tempPath);
     }
 
-    await imageFile.mv(filePath);
-
-    // Create database record
+    // Create database record in Neon DB
     const image = await prisma.image.create({
       data: {
         title,
         description,
-        imageUrl: `/uploads/images/${fileName}`,
+        imageUrl: cloudinaryUrl,
         createdBy: userId
       }
     });
 
     res.json(image);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Upload failed" });
+    console.error("Upload image error:", error);
+    res.status(500).json({ message: "Upload failed", error: String(error) });
   }
 };
 
@@ -99,69 +106,25 @@ export const getImages = async (req: AuthRequest, res: Response) => {
 };
 
 export const deleteAudio = async (req: AuthRequest, res: Response) => {
-  const audioId = req.params.audioId;
-  const userId = req.auth!.userId;
-
-  if (!audioId) {
-    return res.status(400).json({ message: "Audio ID required" });
-  }
-
+  const { audioId } = req.params;
   try {
-    const audio = await prisma.audioFile.findUnique({ where: { id: audioId } });
-    if (!audio) return res.status(404).json({ message: "Audio not found" });
-
-    // Only creator can delete
-    if (audio.createdBy !== userId) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-
-    // Delete file from storage
-    if (audio.audioUrl.startsWith("/uploads/")) {
-      const filePath = path.join(UPLOAD_DIR, audio.audioUrl.replace("/uploads/", ""));
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
-
-    // Delete from database
-    await prisma.audioFile.delete({ where: { id: audioId } });
-
+    await prisma.audioFile.delete({
+      where: { id: audioId }
+    });
     res.json({ message: "Audio deleted" });
   } catch (error) {
-    res.status(500).json({ message: "Delete failed" });
+    res.status(500).json({ message: "Failed to delete audio" });
   }
 };
 
 export const deleteImage = async (req: AuthRequest, res: Response) => {
-  const imageId = req.params.imageId;
-  const userId = req.auth!.userId;
-
-  if (!imageId) {
-    return res.status(400).json({ message: "Image ID required" });
-  }
-
+  const { imageId } = req.params;
   try {
-    const image = await prisma.image.findUnique({ where: { id: imageId } });
-    if (!image) return res.status(404).json({ message: "Image not found" });
-
-    // Only creator can delete
-    if (image.createdBy !== userId) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-
-    // Delete file from storage
-    if (image.imageUrl.startsWith("/uploads/")) {
-      const filePath = path.join(UPLOAD_DIR, image.imageUrl.replace("/uploads/", ""));
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
-
-    // Delete from database
-    await prisma.image.delete({ where: { id: imageId } });
-
+    await prisma.image.delete({
+      where: { id: imageId }
+    });
     res.json({ message: "Image deleted" });
   } catch (error) {
-    res.status(500).json({ message: "Delete failed" });
+    res.status(500).json({ message: "Failed to delete image" });
   }
 };

@@ -57,3 +57,34 @@ export const linkParentChild = async (req: AuthRequest, res: Response) => {
 
   res.json(link);
 };
+
+export const getChildToken = async (req: AuthRequest, res: Response) => {
+  const userId = req.auth!.userId;
+  try {
+    const user = await prisma.profile.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user || user.role !== "CHILD") {
+      return res.status(403).json({ message: "Only children can get ESP32 token" });
+    }
+
+    // Generate a unique device token for ESP32
+    const deviceToken = generateDeviceToken(userId);
+    
+    res.json({ 
+      deviceToken,
+      userId,
+      role: user.role,
+      fullName: user.fullName
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get token" });
+  }
+};
+
+function generateDeviceToken(userId: string): string {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 15);
+  return `ESP32-${userId.substring(0, 8)}-${timestamp}-${random}`;
+}

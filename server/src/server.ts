@@ -3,7 +3,7 @@ import cors from "cors";
 import path from "path";
 import fileUpload from "express-fileupload";
 import { errorHandler } from "./middleware/error-handler";
-import { register, login, linkParentChild } from "./controller/auth.controller";
+import { register, login, linkParentChild, getChildToken } from "./controller/auth.controller";
 import { 
   myProgress, 
   teacherChildrenProgress, 
@@ -72,6 +72,9 @@ app.post("/parent/link-child", authenticate, authorize(["PARENT"]), linkParentCh
 app.get("/me/progress", authenticate, myProgress);
 app.get("/teacher/children-progress", authenticate, authorize(["TEACHER"]), teacherChildrenProgress);
 app.get("/parent/children-progress", authenticate, authorize(["PARENT"]), parentChildrenProgress);
+
+// ESP32 child token route
+app.get("/child/token", authenticate, authorize(["CHILD"]), getChildToken);
 
 app.use(errorHandler);
 
