@@ -1,12 +1,12 @@
-import express, { Application } from "express";
+import express, {Application} from "express";
 import cors from "cors";
 import path from "path";
 import fileUpload from "express-fileupload";
-import { errorHandler } from "./middleware/error-handler";
-import { register, login, linkParentChild, getChildToken } from "./controller/auth.controller";
-import { 
-  myProgress, 
-  teacherChildrenProgress, 
+import {errorHandler} from "./middleware/error-handler";
+import {register, login, linkParentChild, getChildToken} from "./controller/auth.controller";
+import {
+  myProgress,
+  teacherChildrenProgress,
   parentChildrenProgress,
   getAudioFiles,
   markAudioOpened,
@@ -20,24 +20,21 @@ import {
   deleteParentLink,
   getAllParents
 } from "./controller/progress.controller";
-import { authenticate, authorize } from "./middleware/auth";
-import { uploadAudio, uploadImage, getImages, deleteAudio, deleteImage } from "./controller/media.controller";
+import {authenticate, authorize} from "./middleware/auth";
+import {uploadAudio, uploadImage, getImages, deleteAudio, deleteImage} from "./controller/media.controller";
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(fileUpload({
-  createParentPath: true,
-  limits: { fileSize: 50 * 1024 * 1024 } // 50MB
+  limits: {fileSize: 50 * 1024 * 1024} // 50MB
 }));
 
 // Serve static files from client assets
 app.use("/assets", express.static(path.join(__dirname, "../../client/src/assets")));
 
-// Serve uploaded files
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // auth
 app.post("/auth/register", register);
@@ -78,6 +75,12 @@ app.get("/child/token", authenticate, authorize(["CHILD"]), getChildToken);
 
 app.use(errorHandler);
 
-app.listen(8080, () => {
-  console.log("Server is running on http://localhost:8080");
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(8080, () => {
+    console.log("Server is running on http://localhost:8080");
+  });
+}
+
+// Export for Vercel
+export default app;

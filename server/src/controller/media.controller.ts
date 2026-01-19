@@ -1,16 +1,7 @@
 import {Response} from "express";
 import prisma from "../../prisma/prisma";
 import {AuthRequest} from "../middleware/auth";
-import path from "path";
-import fs from "fs";
 import {uploadToCloudinary} from "../utils/cloudinary";
-
-const TEMP_DIR = path.join(__dirname, "../../temp");
-
-// Ensure temp directory exists
-if (!fs.existsSync(TEMP_DIR)) {
-  fs.mkdirSync(TEMP_DIR, {recursive: true});
-}
 
 export const uploadAudio = async (req: AuthRequest, res: Response) => {
   const userId = req.auth!.userId;
@@ -22,19 +13,8 @@ export const uploadAudio = async (req: AuthRequest, res: Response) => {
   }
 
   try {
-    // Save to temp location
-    const tempFileName = `${Date.now()}-${audioFile.name}`;
-    const tempPath = path.join(TEMP_DIR, tempFileName);
-
-    await audioFile.mv(tempPath);
-
-    // Upload to Cloudinary
-    const cloudinaryUrl = await uploadToCloudinary(tempPath, "audio", "video");
-
-    // Delete temp file
-    if (fs.existsSync(tempPath)) {
-      fs.unlinkSync(tempPath);
-    }
+    // Upload directly from buffer to Cloudinary (no temp file needed)
+    const cloudinaryUrl = await uploadToCloudinary(audioFile.data, "audio", "video");
 
     // Create database record in Neon DB
     const audio = await prisma.audioFile.create({
@@ -63,19 +43,8 @@ export const uploadImage = async (req: AuthRequest, res: Response) => {
   }
 
   try {
-    // Save to temp location
-    const tempFileName = `${Date.now()}-${imageFile.name}`;
-    const tempPath = path.join(TEMP_DIR, tempFileName);
-
-    await imageFile.mv(tempPath);
-
-    // Upload to Cloudinary
-    const cloudinaryUrl = await uploadToCloudinary(tempPath, "images", "image");
-
-    // Delete temp file
-    if (fs.existsSync(tempPath)) {
-      fs.unlinkSync(tempPath);
-    }
+    // Upload directly from buffer to Cloudinary (no temp file needed)
+    const cloudinaryUrl = await uploadToCloudinary(imageFile.data, "images", "image");
 
     // Create database record in Neon DB
     const image = await prisma.image.create({
@@ -128,3 +97,4 @@ export const deleteImage = async (req: AuthRequest, res: Response) => {
     res.status(500).json({message: "Failed to delete image"});
   }
 };
+
