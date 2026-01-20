@@ -1,92 +1,101 @@
-import bg_2 from "@/assets/bg_2.jpg"
+import {Star, Quote} from "lucide-react";
+import {cn} from "@/lib/utils";
 
-const Testimonials = () => {
+const testimonials = [
+  {
+    name: "Bu Sari",
+    role: "Guru PAUD Melati",
+    content: "Anak-anak jadi lebih antusias belajar! RABA membuat mereka bergerak aktif sambil belajar mengenal huruf dan angka.",
+    rating: 5,
+    color: "border-red-400/20",
+    bgColor: "bg-red-500/5",
+  },
+  {
+    name: "Pak Budi",
+    role: "Kepala Posyandu Harapan",
+    content: "Sangat membantu untuk stimulasi anak-anak di posyandu kami. Tracking perkembangan juga sangat berguna untuk monitoring.",
+    rating: 5,
+    color: "border-teal-400/20",
+    bgColor: "bg-teal-500/5",
+  },
+  {
+    name: "Ibu Maya",
+    role: "Orang Tua Murid",
+    content: "Akhirnya ada alat belajar yang tidak pakai layar! Anak saya jadi lebih fokus dan mau bergerak aktif.",
+    rating: 5,
+    color: "border-amber-400/20",
+    bgColor: "bg-amber-500/5",
+  },
+];
+
+export const Testimonials = () => {
   return (
-    <section className="relative py-32 px-[5%] border-y border-sky-500/20 overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.45) 40%, rgba(0,0,0,0.75)), url(${bg_2})`,
-          backgroundBlendMode: 'multiply, normal',
-          filter: 'blur(2px)',
-          transform: 'scale(1.03)',
-        }}
-      />
-      <div className="absolute inset-0 bg-black/40 pointer-events-none"/>
+    <section id="testimonials" className="py-24 bg-background relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-1/4 left-0 w-80 h-80 bg-lavender/5 rounded-full blur-3xl"/>
+      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-mint/5 rounded-full blur-3xl"/>
 
-      <div className="relative z-10 text-center mb-20">
-        <div className="inline-block px-6 py-2 bg-sky-500/15 border border-sky-500/30 rounded-full text-sm mb-4">
-          Testimonials
+      <div className="container mx-auto relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span
+            className="inline-block px-4 py-1.5 rounded-full bg-indigo-200/30 text-indigo-500 font-medium text-sm mb-4">
+            Testimoni
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6">
+            Dipercaya Pendidik Indonesia
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            Lihat apa kata guru, orang tua, dan mitra kami tentang RABA.
+          </p>
         </div>
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-4 font-heading">
-          Apa Kata Mereka Tentang RABA
-        </h2>
-        <p className="text-xl text-white/60 max-w-2xl mx-auto">
-          RABA telah membantu banyak guru PAUD dan orang tua dalam menciptakan pengalaman belajar yang lebih
-          interaktif dan bermakna bagi anak-anak mereka.
-        </p>
-      </div>
 
-      <div className="relative z-10 grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {[
-          {
-            quote: "RABA telah benar-benar mengubah cara kami menangani data pelanggan. Wawasan AI-nya sangat akurat dan membantu kami meningkatkan konversi hingga 40%.",
-            author: "Sarah Chen",
-            role: "CEO, TechFlow",
-            avatar: "SC"
-          },
-          {
-            quote: "Kemampuan otomatisasinya luar biasa. Kami menghemat ratusan jam setiap bulan dan tim kini dapat fokus pada inisiatif strategis.",
-            author: "Michael Rodriguez",
-            role: "Operations Director, StartupHub",
-            avatar: "MR"
-          },
-          {
-            quote: "Investasi terbaik yang kami lakukan tahun ini. ROI terlihat dalam bulan pertama. Tim dukungan RABA juga sangat responsif dan membantu.",
-            author: "Emily Watson",
-            role: "CTO, DataSync",
-            avatar: "EW"
-          },
-          {
-            quote: "Pemrosesan bahasa alaminya fenomenal. Anggota tim non-teknis kami sekarang dapat mengajukan pertanyaan pada data kompleks tanpa perlu pelatihan khusus.",
-            author: "James Park",
-            role: "VP of Analytics, CloudCore",
-            avatar: "JP"
-          },
-          {
-            quote: "Keamanan adalah prioritas utama kami, dan RABA melampaui semua harapan. Perlindungan setara enterprise dengan performa yang sangat baik.",
-            author: "Lisa Thompson",
-            role: "CISO, SecureNet",
-            avatar: "LT"
-          },
-          {
-            quote: "Integrasinya mulus. Dalam beberapa hari, RABA sudah bekerja dengan semua alat yang kami pakai. Dokumentasi API sangat lengkap.",
-            author: "David Kumar",
-            role: "Lead Developer, DevPros",
-            avatar: "DK"
-          }
-        ].map((testimonial, index) => (
-          <div
-            key={index}
-            className="relative p-8 bg-white/[0.03] border border-sky-500/20 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:bg-sky-500/[0.08] hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-500/20"
-          >
-            <div className="text-4xl text-sky-400 mb-4">"</div>
-            <p className="text-white/80 mb-6 leading-relaxed">{testimonial.quote}</p>
-            <div className="flex items-center gap-4">
+        {/* Testimonials Grid */}
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              className={cn(
+                "relative p-8 rounded-3xl border-2 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg animate-fade-in",
+                testimonial.color,
+                testimonial.bgColor
+              )}
+              style={{animationDelay: `${index * 0.15}s`}}
+            >
+              {/* Quote Icon */}
               <div
-                className="w-12 h-12 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full flex items-center justify-center font-bold text-sm">
-                {testimonial.avatar}
+                className="absolute -top-4 -left-2 w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center shadow-sm">
+                <Quote className="w-5 h-5 text-red-300"/>
               </div>
-              <div>
-                <div className="font-semibold">{testimonial.author}</div>
-                <div className="text-sm text-white/60">{testimonial.role}</div>
+
+              {/* Rating */}
+              <div className="flex gap-1 mb-4">
+                {Array.from({length: testimonial.rating}).map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-amber-300 text-amber-500"/>
+                ))}
+              </div>
+
+              {/* Content */}
+              <p className="text-foreground leading-relaxed mb-6">
+                "{testimonial.content}"
+              </p>
+
+              {/* Author */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-red-300/40 flex items-center justify-center">
+                  <span className="font-bold text-red-400">
+                    {testimonial.name.charAt(0)}
+                  </span>
+                </div>
+                <div>
+                  <p className="font-bold text-sm">{testimonial.name}</p>
+                  <p className="text-muted-foreground text-xs">{testimonial.role}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
 };
-
-export default Testimonials;
