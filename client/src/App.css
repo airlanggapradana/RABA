@@ -128,16 +128,12 @@
 }
 
 @layer base {
-    * {
-        @apply border border-slate-300;
-    }
-
     html {
         scroll-behavior: smooth;
     }
 
     body {
-        @apply bg-white text-gray-100 antialiased;
+        @apply bg-white text-gray-800 antialiased;
         font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
 

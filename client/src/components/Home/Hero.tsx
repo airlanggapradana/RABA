@@ -53,7 +53,7 @@ export const Hero = () => {
               variant="default"
               size="lg"
               onClick={() => navigate("/auth")}
-              className="h-14 px-8 text-lg font-semibold bg-gradient-to-r from-red-600 to-red-600 hover:from-red-700 hover:to-red-700 shadow-lg hover:shadow-xl transition-all"
+              className="h-14 px-8 text-lg text-gray-100 font-semibold bg-gradient-to-r from-red-600 to-red-600 hover:from-red-700 hover:to-red-700 shadow-lg hover:shadow-xl transition-all"
             >
               Mulai Sekarang
             </Button>
