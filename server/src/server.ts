@@ -22,6 +22,7 @@ import {
 } from "./controller/progress.controller";
 import {authenticate, authorize} from "./middleware/auth";
 import {uploadAudio, uploadImage, getImages, deleteAudio, deleteImage} from "./controller/media.controller";
+import {handleESP32Event, getDeviceStatus, getDeviceStatistics, getActiveGameSession} from "./controller/esp32.controller";
 
 const app: Application = express();
 
@@ -72,6 +73,12 @@ app.get("/parent/children-progress", authenticate, authorize(["PARENT"]), parent
 
 // ESP32 child token route
 app.get("/child/token", authenticate, authorize(["CHILD"]), getChildToken);
+
+// ESP32 device event routes (no authentication required for /event endpoint)
+app.post("/event", handleESP32Event);
+app.get("/device/status/:deviceId", getDeviceStatus);
+app.get("/device/statistics/:deviceId", getDeviceStatistics);
+app.get("/device/:deviceId/active-session", getActiveGameSession);
 
 app.use(errorHandler);
 

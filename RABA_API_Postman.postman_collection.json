@@ -1,0 +1,196 @@
+{
+  "info": {
+    "_postman_id": "raba-api-collection",
+    "name": "RABA API - ESP32 Device Events",
+    "description": "Collection for testing RABA ESP32 device event endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ESP32 Events",
+      "item": [
+        {
+          "name": "1. Device Status Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"RABA_001\",\n  \"event\": \"status\",\n  \"data\": {\n    \"wifi_rssi\": -44,\n    \"theme\": \"Alat makan\",\n    \"in_game\": false,\n    \"uptime_sec\": 6\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/event",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "event"
+              ]
+            },
+            "description": "Send device status - bekerja setiap 60 detik dari ESP32"
+          },
+          "response": []
+        },
+        {
+          "name": "2. Game Start Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"RABA_001\",\n  \"event\": \"game_start\",\n  \"data\": {\n    \"theme\": \"Alat makan\",\n    \"total_steps\": 9\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/event",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "event"
+              ]
+            },
+            "description": "Trigger ketika anak mulai main"
+          },
+          "response": []
+        },
+        {
+          "name": "3. Sensor Hit Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"RABA_001\",\n  \"event\": \"sensor_hit\",\n  \"data\": {\n    \"sensor\": 3,\n    \"correct\": true,\n    \"step\": \"4/9\",\n    \"theme\": \"Alat makan\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/event",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "event"
+              ]
+            },
+            "description": "Trigger setiap kali sensor diinjak"
+          },
+          "response": []
+        },
+        {
+          "name": "4. Game Complete Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"RABA_001\",\n  \"event\": \"game_complete\",\n  \"data\": {\n    \"theme\": \"Alat makan\",\n    \"duration_sec\": 120,\n    \"total_steps\": 9\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/event",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "event"
+              ]
+            },
+            "description": "Trigger ketika quest selesai 9/9"
+          },
+          "response": []
+        }
+      ],
+      "description": "Event endpoints for receiving data from ESP32"
+    },
+    {
+      "name": "Device Information",
+      "item": [
+        {
+          "name": "Get Device Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/device/status/RABA_001",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "device",
+                "status",
+                "RABA_001"
+              ]
+            },
+            "description": "Get current device status (online/offline, wifi_rssi, theme, uptime)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Device Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/device/statistics/RABA_001",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "device",
+                "statistics",
+                "RABA_001"
+              ]
+            },
+            "description": "Get device statistics including game history and performance metrics"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Game Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/device/RABA_001/active-session",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "device",
+                "RABA_001",
+                "active-session"
+              ]
+            },
+            "description": "Get current active game session for a device"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}

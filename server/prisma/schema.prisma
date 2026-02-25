@@ -128,3 +128,76 @@ model TeacherAudioAssignment {
   @@unique([teacherId, audioId, studentId])
   @@map("teacher_audio_assignments")
 }
+
+enum ESP32EventType {
+  status
+  game_start
+  sensor_hit
+  game_complete
+}
+
+model ESP32Device {
+  id            String   @id @default(uuid()) @db.Uuid
+  deviceId      String   @unique @db.Text
+  theme         String?  @db.Text
+  wifiRssi      Int?
+  isOnline      Boolean  @default(false)
+  lastSeen      DateTime @default(now()) @db.Timestamptz
+  uptimeSec     Int?
+  createdAt     DateTime @default(now()) @db.Timestamptz
+  updatedAt     DateTime @updatedAt @db.Timestamptz
+
+  events        ESP32Event[]
+  gameSessions  GameSession[]
+
+  @@map("esp32_devices")
+}
+
+model ESP32Event {
+  id              String          @id @default(uuid()) @db.Uuid
+  deviceId        String          @db.Text
+  eventType       ESP32EventType
+  payload         Json            @db.JsonB
+  createdAt       DateTime        @default(now()) @db.Timestamptz
+
+  device          ESP32Device     @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
+  @@index([deviceId])
+  @@index([eventType])
+  @@index([createdAt])
+  @@map("esp32_events")
+}
+
+model GameSession {
+  id              String   @id @default(uuid()) @db.Uuid
+  deviceId        String   @db.Text
+  theme           String   @db.Text
+  totalSteps      Int      @db.Integer
+  completedSteps  Int      @default(0)
+  startedAt       DateTime @default(now()) @db.Timestamptz
+  completedAt     DateTime? @db.Timestamptz
+  durationSec     Int?
+  isCompleted     Boolean  @default(false)
+  createdAt       DateTime @default(now()) @db.Timestamptz
+
+  device          ESP32Device       @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  sensorHits      SensorHit[]
+
+  @@index([deviceId])
+  @@index([startedAt])
+  @@map("game_sessions")
+}
+
+model SensorHit {
+  id              String   @id @default(uuid()) @db.Uuid
+  gameSessionId   String   @db.Uuid
+  sensorNumber    Int      @db.Integer
+  isCorrect       Boolean  @db.Boolean
+  step            String   @db.Text
+  createdAt       DateTime @default(now()) @db.Timestamptz
+
+  gameSession     GameSession @relation(fields: [gameSessionId], references: [id], onDelete: Cascade)
+
+  @@index([gameSessionId])
+  @@map("sensor_hits")
+}

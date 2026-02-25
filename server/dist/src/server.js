@@ -12,6 +12,7 @@ const auth_controller_1 = require("./controller/auth.controller");
 const progress_controller_1 = require("./controller/progress.controller");
 const auth_1 = require("./middleware/auth");
 const media_controller_1 = require("./controller/media.controller");
+const esp32_controller_1 = require("./controller/esp32.controller");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -51,6 +52,11 @@ app.get("/teacher/children-progress", auth_1.authenticate, (0, auth_1.authorize)
 app.get("/parent/children-progress", auth_1.authenticate, (0, auth_1.authorize)(["PARENT"]), progress_controller_1.parentChildrenProgress);
 // ESP32 child token route
 app.get("/child/token", auth_1.authenticate, (0, auth_1.authorize)(["CHILD"]), auth_controller_1.getChildToken);
+// ESP32 device event routes (no authentication required for /event endpoint)
+app.post("/event", esp32_controller_1.handleESP32Event);
+app.get("/device/status/:deviceId", esp32_controller_1.getDeviceStatus);
+app.get("/device/statistics/:deviceId", esp32_controller_1.getDeviceStatistics);
+app.get("/device/:deviceId/active-session", esp32_controller_1.getActiveGameSession);
 app.use(error_handler_1.errorHandler);
 // For local development
 if (process.env.NODE_ENV !== 'production') {

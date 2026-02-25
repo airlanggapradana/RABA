@@ -17,8 +17,8 @@ const myProgress = async (req, res) => {
     const progress = await prisma_1.default.userProgress.findMany({
         where: { userId }
     });
-    const progressMap = new Map(progress.map(p => [p.audioId, p]));
-    const data = assignedAudios.map(a => ({
+    const progressMap = new Map(progress.map((p) => [p.audioId, p]));
+    const data = assignedAudios.map((a) => ({
         id: a.audio.id,
         title: a.audio.title,
         audioUrl: a.audio.audioUrl,
@@ -37,7 +37,7 @@ const teacherChildrenProgress = async (req, res) => {
         distinct: ["studentId"],
         select: { studentId: true }
     });
-    const uniqueStudentIds = [...new Set(studentIds.map(s => s.studentId))];
+    const uniqueStudentIds = [...new Set(studentIds.map((s) => s.studentId))];
     const students = await prisma_1.default.profile.findMany({
         where: { id: { in: uniqueStudentIds }, role: "CHILD" }
     });
@@ -47,7 +47,7 @@ const teacherChildrenProgress = async (req, res) => {
         distinct: ["audioId"],
         select: { audioId: true }
     });
-    const uniqueAudioIds = [...new Set(assignedAudios.map(a => a.audioId))];
+    const uniqueAudioIds = [...new Set(assignedAudios.map((a) => a.audioId))];
     const totalAudio = uniqueAudioIds.length;
     const result = await Promise.all(students.map(async (s) => {
         const played = await prisma_1.default.userProgress.count({
@@ -78,13 +78,13 @@ const parentChildrenProgress = async (req, res) => {
         include: { child: true }
     });
     // Get all audios assigned to any of their children
-    const childIds = links.map(l => l.childId);
+    const childIds = links.map((l) => l.childId);
     const assignedAudios = await prisma_1.default.teacherAudioAssignment.findMany({
         where: { studentId: { in: childIds } },
         distinct: ["audioId"],
         select: { audioId: true }
     });
-    const uniqueAudioIds = [...new Set(assignedAudios.map(a => a.audioId))];
+    const uniqueAudioIds = [...new Set(assignedAudios.map((a) => a.audioId))];
     const totalAudio = uniqueAudioIds.length;
     const result = await Promise.all(links.map(async (l) => {
         const played = await prisma_1.default.userProgress.count({
