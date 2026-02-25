@@ -23,6 +23,7 @@ import {
 import {authenticate, authorize} from "./middleware/auth";
 import {uploadAudio, uploadImage, getImages, deleteAudio, deleteImage} from "./controller/media.controller";
 import {handleESP32Event, getDeviceStatus, getDeviceStatistics, getActiveGameSession} from "./controller/esp32.controller";
+import {checkDatabaseConnection, runMigrations, checkDatabaseSchema} from "./lib/database";
 
 const app: Application = express();
 
@@ -36,6 +37,26 @@ app.use(fileUpload({
 // Serve static files from client assets
 app.use("/assets", express.static(path.join(__dirname, "../../client/src/assets")));
 
+// Health check endpoint
+app.get("/health", async (req, res) => {
+  try {
+    const dbConnected = await checkDatabaseConnection();
+    const schemaValid = await checkDatabaseSchema();
+    
+    res.status(dbConnected && schemaValid ? 200 : 503).json({ 
+      status: dbConnected && schemaValid ? "ok" : "degraded",
+      database: dbConnected ? "connected" : "disconnected",
+      schema: schemaValid ? "valid" : "invalid",
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || "development"
+    });
+  } catch (error: any) {
+    res.status(503).json({ 
+      status: "error", 
+      message: error.message 
+    });
+  }
+});
 
 // auth
 app.post("/auth/register", register);
@@ -82,10 +103,21 @@ app.get("/device/:deviceId/active-session", getActiveGameSession);
 
 app.use(errorHandler);
 
+// Initialize database on startup
+const initializeApp = async () => {
+  await runMigrations();
+  await checkDatabaseSchema();
+};
+
 // For local development
 if (process.env.NODE_ENV !== 'production') {
-  app.listen(8080, () => {
-    console.log("Server is running on http://localhost:8080");
+  initializeApp().then(() => {
+    app.listen(8080, () => {
+      console.log("Server is running on http://localhost:8080");
+    });
+  }).catch((err) => {
+    console.error("Failed to initialize app:", err);
+    process.exit(1);
   });
 }
 
