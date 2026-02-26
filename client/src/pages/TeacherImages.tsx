@@ -276,7 +276,7 @@ const TeacherImages = () => {
           <Button 
             onClick={handleAddImage} 
             className="w-full"
-            disabled={newTheme && isThemeFull(newTheme)}
+            disabled={newTheme !== "" && isThemeFull(newTheme)}
           >
             Add Image
           </Button>
