@@ -13,6 +13,7 @@ interface Image {
   title: string;
   description?: string;
   imageUrl: string;
+  theme?: string;
 }
 
 const TeacherImages = () => {
@@ -21,9 +22,18 @@ const TeacherImages = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const [newTheme, setNewTheme] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const getThemeCount = (theme: string) => {
+    return images.filter(image => image.theme === theme).length;
+  };
+
+  const isThemeFull = (theme: string) => {
+    return getThemeCount(theme) >= 9;
+  };
 
   const fetchImagesData = async () => {
     const token = authService.getToken();
@@ -44,8 +54,13 @@ const TeacherImages = () => {
   }, []);
 
   const handleAddImage = async () => {
-    if (!newTitle || !imageFile) {
-      toast.error("Title and image file required");
+    if (!newTitle || !imageFile || !newTheme) {
+      toast.error("Title, theme, and image file required");
+      return;
+    }
+
+    if (isThemeFull(newTheme)) {
+      toast.error("Theme is full! Maximum 9 items per theme");
       return;
     }
 
@@ -56,6 +71,7 @@ const TeacherImages = () => {
       const formData = new FormData();
       formData.append("title", newTitle);
       formData.append("description", newDescription);
+      formData.append("theme", newTheme);
       formData.append("image", imageFile);
 
       const res = await fetch(`${API_URL}/teacher/upload-image`, {
@@ -64,7 +80,10 @@ const TeacherImages = () => {
         body: formData
       });
 
-      if (!res.ok) throw new Error("Upload failed");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.details || errorData.message || "Upload failed");
+      }
 
       Swal.fire({
         icon: "success",
@@ -75,12 +94,13 @@ const TeacherImages = () => {
 
       setNewTitle("");
       setNewDescription("");
+      setNewTheme("");
       setImageFile(null);
       setIsModalOpen(false);
 
       await fetchImagesData();
     } catch (error) {
-      toast.error("Failed to add image");
+      toast.error(error instanceof Error ? error.message : "Failed to add image");
       console.error(error);
     }
   };
@@ -138,43 +158,64 @@ const TeacherImages = () => {
       ) : images.length === 0 ? (
         <Card><CardContent className="pt-6 text-center text-muted-foreground">No images yet</CardContent></Card>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {images.map((image) => (
-            <Card key={image.id} className="shadow-md overflow-hidden">
-              <div className="aspect-square bg-muted overflow-hidden">
-                <img
-                  src={image.imageUrl}
-                  alt={image.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform"
-                  onError={(e) => {
-                    console.error("Image failed to load:", image.imageUrl);
-                    (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23ddd' width='100' height='100'/%3E%3Ctext x='50' y='50' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3EFailed to load%3C/text%3E%3C/svg%3E";
-                  }}
-                />
-              </div>
-              <CardContent className="pt-3">
-                <p className="text-sm font-medium truncate">{image.title}</p>
-                <div className="flex gap-2 mt-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex-1 h-8"
-                    onClick={() => window.open(image.imageUrl)}
-                  >
-                    View
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-destructive hover:bg-destructive/10 h-8"
-                    onClick={() => handleDeleteImage(image.id)}
-                  >
-                    <Trash2 className="h-3 w-3"/>
-                  </Button>
+        <div className="space-y-6">
+          {Array.from(new Set(images.map(i => i.theme).filter(Boolean)))
+            .sort()
+            .map((theme) => {
+              const themeImages = images.filter(i => i.theme === theme);
+              return (
+                <div key={theme}>
+                  <div className="mb-3 flex items-center gap-2">
+                    <h2 className="text-lg font-semibold text-gray-700">{theme}</h2>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      themeImages.length >= 9 
+                        ? 'bg-red-100 text-red-800' 
+                        : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {themeImages.length}/9
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {themeImages.map((image) => (
+                      <Card key={image.id} className="shadow-md overflow-hidden">
+                        <div className="aspect-square bg-muted overflow-hidden">
+                          <img
+                            src={image.imageUrl}
+                            alt={image.title}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform"
+                            onError={(e) => {
+                              console.error("Image failed to load:", image.imageUrl);
+                              (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23ddd' width='100' height='100'/%3E%3Ctext x='50' y='50' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3EFailed to load%3C/text%3E%3C/svg%3E";
+                            }}
+                          />
+                        </div>
+                        <CardContent className="pt-3">
+                          <p className="text-sm font-medium truncate">{image.title}</p>
+                          <div className="flex gap-2 mt-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1 h-8"
+                              onClick={() => window.open(image.imageUrl)}
+                            >
+                              View
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="text-destructive hover:bg-destructive/10 h-8"
+                              onClick={() => handleDeleteImage(image.id)}
+                            >
+                              <Trash2 className="h-3 w-3"/>
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              );
+            })}
         </div>
       )}
 
@@ -192,6 +233,25 @@ const TeacherImages = () => {
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Theme <span className="text-destructive">*</span>
+              {newTheme && (
+                <span className={`ml-2 text-xs ${isThemeFull(newTheme) ? 'text-destructive' : 'text-green-600'}`}>
+                  ({getThemeCount(newTheme)}/9)
+                </span>
+              )}
+            </label>
+            <Input
+              placeholder="e.g., Alat makan, Buah-buahan, Hewan"
+              value={newTheme}
+              onChange={(e) => setNewTheme(e.target.value)}
+            />
+            {newTheme && isThemeFull(newTheme) && (
+              <p className="text-xs text-destructive mt-1">⚠️ This theme is full (9/9 items). Choose another theme.</p>
+            )}
           </div>
 
           <div>
@@ -213,7 +273,11 @@ const TeacherImages = () => {
             />
           </div>
 
-          <Button onClick={handleAddImage} className="w-full">
+          <Button 
+            onClick={handleAddImage} 
+            className="w-full"
+            disabled={newTheme && isThemeFull(newTheme)}
+          >
             Add Image
           </Button>
         </div>

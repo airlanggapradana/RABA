@@ -47,6 +47,7 @@ model Image {
   title       String   @db.Text
   description String?  @db.Text
   imageUrl    String   @db.Text
+  theme       String?  @db.Text
   createdAt   DateTime @default(now()) @db.Timestamptz
   createdBy   String?  @db.Uuid
 
@@ -61,6 +62,7 @@ model AudioFile {
   title         String        @db.Text
   description   String?       @db.Text
   audioUrl      String        @db.Text
+  theme         String?       @db.Text
   duration      Int?
   createdAt     DateTime      @default(now()) @db.Timestamptz
   createdBy     String?       @db.Uuid
