@@ -75,7 +75,7 @@ export const removeThemeAssignment = async (req: AuthRequest, res: Response) => 
   const { assignmentId } = req.params;
 
   try {
-    const assignment = await prisma.themeAssignment.findUnique({
+    const assignment = await prisma.themeAssignment.findFirst({
       where: { id: assignmentId }
     });
 
@@ -201,7 +201,7 @@ export const markMediaOpened = async (req: AuthRequest, res: Response) => {
 
   try {
     // Verify student owns this assignment
-    const assignment = await prisma.themeAssignment.findUnique({
+    const assignment = await prisma.themeAssignment.findFirst({
       where: { id: assignmentId }
     });
 
@@ -221,7 +221,7 @@ export const markMediaOpened = async (req: AuthRequest, res: Response) => {
       create: {
         themeAssignmentId: assignmentId,
         mediaId,
-        mediaType: "AUDIO", // Will be updated by server
+        mediaType: "AUDIO",
         openedAt: new Date()
       }
     });
@@ -243,7 +243,7 @@ export const markMediaDownloaded = async (req: AuthRequest, res: Response) => {
 
   try {
     // Verify student owns this assignment
-    const assignment = await prisma.themeAssignment.findUnique({
+    const assignment = await prisma.themeAssignment.findFirst({
       where: { id: assignmentId }
     });
 
@@ -266,7 +266,7 @@ export const markMediaDownloaded = async (req: AuthRequest, res: Response) => {
       create: {
         themeAssignmentId: assignmentId,
         mediaId,
-        mediaType: "AUDIO", // Will be updated by server
+        mediaType: "AUDIO",
         downloadedAt: new Date(),
         openedAt: new Date()
       }
