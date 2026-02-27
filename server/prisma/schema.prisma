@@ -136,33 +136,32 @@ model TeacherAudioAssignment {
 }
 
 model ThemeAssignment {
-  id        String   @id @default(uuid()) @db.Uuid
-  teacherId String   @db.Uuid
-  studentId String   @db.Uuid
-  theme     String   @db.Text
-  createdAt DateTime @default(now()) @db.Timestamptz
-
-  teacher   Profile @relation("teacher_theme_assignments", fields: [teacherId], references: [id], onDelete: Cascade)
-  student   Profile @relation("student_theme_assignments", fields: [studentId], references: [id], onDelete: Cascade)
+  id            String           @id @default(uuid())
+  teacherId     String
+  studentId     String
+  theme         String
   mediaProgresses MediaProgress[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
-  @@unique([teacherId, theme, studentId])
-  @@map("theme_assignments")
+  @@unique([teacherId, theme, studentId], name: "teacherId_theme_studentId")
 }
 
 model MediaProgress {
-  id                 String    @id @default(uuid()) @db.Uuid
-  themeAssignmentId  String    @db.Uuid
-  mediaId            String    @db.Uuid
-  mediaType          String    @db.Text  // 'AUDIO' or 'IMAGE'
-  openedAt           DateTime? @db.Timestamptz
-  downloadedAt       DateTime? @db.Timestamptz
-  createdAt          DateTime  @default(now()) @db.Timestamptz
+  id                String          @id @default(uuid())
+  themeAssignment   ThemeAssignment @relation(fields: [themeAssignmentId], references: [id])
+  themeAssignmentId String
+  mediaId           String
+  mediaType         MediaType
+  openedAt          DateTime?
+  downloadedAt      DateTime?
 
-  themeAssignment ThemeAssignment @relation(fields: [themeAssignmentId], references: [id], onDelete: Cascade)
+  @@unique([themeAssignmentId, mediaId], name: "themeAssignmentId_mediaId")
+}
 
-  @@unique([themeAssignmentId, mediaId])
-  @@map("media_progress")
+enum MediaType {
+  AUDIO
+  IMAGE
 }
 
 enum ESP32EventType {
