@@ -20,6 +20,14 @@ import {
   deleteParentLink,
   getAllParents
 } from "./controller/progress.controller";
+import {
+  assignThemeToStudent,
+  removeThemeAssignment,
+  getTeacherThemeAssignments,
+  getStudentThemeAssignments,
+  markMediaOpened,
+  markMediaDownloaded
+} from "./controller/theme-assignment.controller";
 import {authenticate, authorize} from "./middleware/auth";
 import {uploadAudio, uploadImage, getImages, deleteAudio, deleteImage} from "./controller/media.controller";
 import {handleESP32Event, getDeviceStatus, getDeviceStatistics, getActiveGameSession} from "./controller/esp32.controller";
@@ -74,11 +82,23 @@ app.get("/audio", getAudioFiles);
 app.post("/audio/mark-opened", authenticate, markAudioOpened);
 app.post("/audio/mark-downloaded", authenticate, markAudioDownloaded);
 
-// teacher assignment routes
+// teacher assignment routes (old audio-based)
 app.post("/teacher/assign-audio", authenticate, authorize(["TEACHER"]), assignAudioToStudent);
 app.post("/teacher/remove-assignment", authenticate, authorize(["TEACHER"]), removeAudioAssignment);
 app.get("/teacher/all-students", authenticate, authorize(["TEACHER"]), getAllStudents);
 app.get("/teacher/assignments", authenticate, authorize(["TEACHER"]), getTeacherAssignments);
+
+// teacher theme assignment routes (new theme-based)
+app.post("/teacher/assign-theme", authenticate, authorize(["TEACHER"]), assignThemeToStudent);
+app.delete("/teacher/theme-assignment/:assignmentId", authenticate, authorize(["TEACHER"]), removeThemeAssignment);
+app.get("/teacher/theme-assignments", authenticate, authorize(["TEACHER"]), getTeacherThemeAssignments);
+
+// student theme assignment routes
+app.get("/student/theme-assignments", authenticate, authorize(["CHILD"]), getStudentThemeAssignments);
+app.post("/student/mark-media-opened", authenticate, authorize(["CHILD"]), markMediaOpened);
+app.post("/student/mark-media-downloaded", authenticate, authorize(["CHILD"]), markMediaDownloaded);
+
+// teacher parent links
 app.get("/teacher/parent-links", authenticate, authorize(["TEACHER"]), getParentLinks);
 app.post("/teacher/link-parent-to-student", authenticate, authorize(["TEACHER"]), linkParentToStudent);
 app.delete("/teacher/parent-links/:linkId", authenticate, authorize(["TEACHER"]), deleteParentLink);
@@ -96,7 +116,7 @@ app.get("/parent/children-progress", authenticate, authorize(["PARENT"]), parent
 app.get("/child/token", authenticate, authorize(["CHILD"]), getChildToken);
 
 // ESP32 device event routes (no authentication required for /event endpoint)
-app.post("/api/event", handleESP32Event);
+app.post("/event", handleESP32Event);
 app.get("/device/status/:deviceId", getDeviceStatus);
 app.get("/device/statistics/:deviceId", getDeviceStatistics);
 app.get("/device/:deviceId/active-session", getActiveGameSession);

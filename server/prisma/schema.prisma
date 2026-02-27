@@ -35,9 +35,13 @@ model Profile {
   parents ParentChild[] @relation("child_parents")
   children ParentChild[] @relation("parent_children")
 
-  // New relations for teacher-student assignments
+  // Old relations for teacher-student assignments (keep for backwards compatibility)
   teacherAssignments TeacherAudioAssignment[] @relation("teacher_assignments")
   studentAssignments TeacherAudioAssignment[] @relation("student_assignments")
+
+  // New relations for theme assignments
+  teacherThemeAssignments ThemeAssignment[] @relation("teacher_theme_assignments")
+  studentThemeAssignments ThemeAssignment[] @relation("student_theme_assignments")
 
   @@map("profiles")
 }
@@ -129,6 +133,36 @@ model TeacherAudioAssignment {
 
   @@unique([teacherId, audioId, studentId])
   @@map("teacher_audio_assignments")
+}
+
+model ThemeAssignment {
+  id        String   @id @default(uuid()) @db.Uuid
+  teacherId String   @db.Uuid
+  studentId String   @db.Uuid
+  theme     String   @db.Text
+  createdAt DateTime @default(now()) @db.Timestamptz
+
+  teacher   Profile @relation("teacher_theme_assignments", fields: [teacherId], references: [id], onDelete: Cascade)
+  student   Profile @relation("student_theme_assignments", fields: [studentId], references: [id], onDelete: Cascade)
+  mediaProgresses MediaProgress[]
+
+  @@unique([teacherId, theme, studentId])
+  @@map("theme_assignments")
+}
+
+model MediaProgress {
+  id                 String    @id @default(uuid()) @db.Uuid
+  themeAssignmentId  String    @db.Uuid
+  mediaId            String    @db.Uuid
+  mediaType          String    @db.Text  // 'AUDIO' or 'IMAGE'
+  openedAt           DateTime? @db.Timestamptz
+  downloadedAt       DateTime? @db.Timestamptz
+  createdAt          DateTime  @default(now()) @db.Timestamptz
+
+  themeAssignment ThemeAssignment @relation(fields: [themeAssignmentId], references: [id], onDelete: Cascade)
+
+  @@unique([themeAssignmentId, mediaId])
+  @@map("media_progress")
 }
 
 enum ESP32EventType {

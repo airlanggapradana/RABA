@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { AudioPlayer } from "@/components/ui/audio-player";
 import { Modal } from "@/components/ui/modal";
+import StudentThemeAssignments from "@/components/StudentThemeAssignments";
 
 const DashboardChild = () => {
   const navigate = useNavigate();
@@ -255,6 +256,11 @@ const DashboardChild = () => {
           </p>
         </div>
       </Modal>
+
+      {/* Theme Assignments Section */}
+      <div className="border-t pt-8">
+        <StudentThemeAssignments />
+      </div>
     </div>
   );
 };
