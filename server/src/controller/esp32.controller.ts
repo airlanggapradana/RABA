@@ -51,7 +51,7 @@ const handleGameStartEvent = async (deviceId: string, data: any) => {
 
 // Handle sensor hit event
 const handleSensorHitEvent = async (deviceId: string, data: any) => {
-  const { sensor, correct, step } = data;
+  const { sensor, correct, step, theme } = data;
 
   // Get the latest active game session for this device
   const gameSession = await prisma.gameSession.findFirst({
@@ -88,12 +88,47 @@ const handleSensorHitEvent = async (deviceId: string, data: any) => {
     },
   });
 
+  // Update media_progress to track student progress on theme assignment
+  // Find the device owner (student) and update their media progress
+  try {
+    const device = await prisma.eSP32Device.findUnique({
+      where: { deviceId },
+      select: { ownerId: true },
+    });
+
+    if (device?.ownerId && theme) {
+      // Get the theme assignment for this student and theme
+      const themeAssignment = await prisma.themeAssignment.findFirst({
+        where: {
+          studentId: device.ownerId,
+          theme,
+        },
+        select: { id: true },
+      });
+
+      if (themeAssignment) {
+        // Mark the audio as opened (sensor hit = student interacted)
+        await prisma.mediaProgress.updateMany({
+          where: {
+            themeAssignmentId: themeAssignment.id,
+            mediaType: "AUDIO" as any,
+          },
+          data: {
+            openedAt: new Date(),
+          },
+        });
+      }
+    }
+  } catch (err) {
+    console.warn(`Failed to update media_progress for sensor hit: ${err}`);
+  }
+
   return sensorHit;
 };
 
 // Handle game complete event
 const handleGameCompleteEvent = async (deviceId: string, data: any) => {
-  const { duration_sec, total_steps } = data;
+  const { duration_sec, total_steps, theme } = data;
 
   // Get the latest active game session
   const gameSession = await prisma.gameSession.findFirst({
@@ -119,6 +154,40 @@ const handleGameCompleteEvent = async (deviceId: string, data: any) => {
       completedAt: new Date(),
     },
   });
+
+  // Update media_progress to track completion
+  try {
+    const device = await prisma.eSP32Device.findUnique({
+      where: { deviceId },
+      select: { ownerId: true },
+    });
+
+    if (device?.ownerId && theme) {
+      const themeAssignment = await prisma.themeAssignment.findFirst({
+        where: {
+          studentId: device.ownerId,
+          theme,
+        },
+        select: { id: true },
+      });
+
+      if (themeAssignment) {
+        // Mark all audio files as opened (game complete = student finished the audio set)
+        await prisma.mediaProgress.updateMany({
+          where: {
+            themeAssignmentId: themeAssignment.id,
+            mediaType: "AUDIO" as any,
+          },
+          data: {
+            openedAt: new Date(),
+            downloadedAt: new Date(), // Mark as downloaded/completed
+          },
+        });
+      }
+    }
+  } catch (err) {
+    console.warn(`Failed to update media_progress for game complete: ${err}`);
+  }
 
   return completedSession;
 };

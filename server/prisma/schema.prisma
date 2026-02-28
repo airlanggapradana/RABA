@@ -43,6 +43,9 @@ model Profile {
   teacherThemeAssignments ThemeAssignment[] @relation("teacher_theme_assignments")
   studentThemeAssignments ThemeAssignment[] @relation("student_theme_assignments")
 
+  // ESP32 device owner
+  esp32Devices  ESP32Device[]
+
   @@map("profiles")
 }
 
@@ -181,6 +184,7 @@ enum ESP32EventType {
 model ESP32Device {
   id            String   @id @default(uuid()) @db.Uuid
   deviceId      String   @unique @db.Text
+  ownerId       String?  @db.Uuid
   theme         String?  @db.Text
   wifiRssi      Int?
   isOnline      Boolean  @default(false)
@@ -189,6 +193,7 @@ model ESP32Device {
   createdAt     DateTime @default(now()) @db.Timestamptz
   updatedAt     DateTime @updatedAt @db.Timestamptz
 
+  owner         Profile? @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   events        ESP32Event[]
   gameSessions  GameSession[]
 
