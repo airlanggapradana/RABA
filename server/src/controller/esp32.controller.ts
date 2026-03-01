@@ -120,7 +120,7 @@ const handleSensorHitEvent = async (deviceId: string, data: any) => {
 
         // Update only the specific step (stepNumber is 1-indexed)
         if (stepNumber > 0 && stepNumber <= mediaProgresses.length) {
-          const targetMedia = mediaProgresses[stepNumber - 1];
+          const targetMedia = mediaProgresses[stepNumber - 1]!;
           
           await prisma.mediaProgress.update({
             where: { id: targetMedia.id },
