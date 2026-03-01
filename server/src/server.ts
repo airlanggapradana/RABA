@@ -30,7 +30,7 @@ import {
 } from "./controller/theme-assignment.controller";
 import {authenticate, authorize} from "./middleware/auth";
 import {uploadAudio, uploadImage, getImages, deleteAudio, deleteImage} from "./controller/media.controller";
-import {handleESP32Event, getDeviceStatus, getDeviceStatistics, getActiveGameSession} from "./controller/esp32.controller";
+import {handleESP32Event, getDeviceStatus, getDeviceStatistics, getActiveGameSession, assignDeviceToStudent} from "./controller/esp32.controller";
 import {checkDatabaseConnection, runMigrations, checkDatabaseSchema} from "./lib/database";
 
 const app: Application = express();
@@ -120,6 +120,7 @@ app.post("/event", handleESP32Event);
 app.get("/device/status/:deviceId", getDeviceStatus);
 app.get("/device/statistics/:deviceId", getDeviceStatistics);
 app.get("/device/:deviceId/active-session", getActiveGameSession);
+app.post("/teacher/assign-device", authenticate, authorize(["TEACHER"]), assignDeviceToStudent);
 
 app.use(errorHandler);
 

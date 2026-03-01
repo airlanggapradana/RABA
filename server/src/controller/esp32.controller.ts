@@ -436,3 +436,66 @@ export const getActiveGameSession = async (
     });
   }
 };
+
+// Assign device to student (untuk link ESP32Device ke student profile)
+export const assignDeviceToStudent = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { deviceId, studentId } = req.body;
+
+    if (!deviceId || !studentId) {
+      res.status(400).json({ error: "deviceId and studentId are required" });
+      return;
+    }
+
+    // Verify student exists
+    const student = await prisma.profile.findUnique({
+      where: { id: studentId },
+      select: { id: true, fullName: true },
+    });
+
+    if (!student) {
+      res.status(404).json({ error: "Student not found" });
+      return;
+    }
+
+    // Ensure device exists
+    const device = await prisma.eSP32Device.findUnique({
+      where: { deviceId },
+      select: { id: true, deviceId: true },
+    });
+
+    if (!device) {
+      // Create device if doesn't exist
+      await prisma.eSP32Device.create({
+        data: {
+          deviceId,
+          ownerId: studentId,
+          isOnline: false,
+          lastSeen: new Date(),
+        },
+      });
+    } else {
+      // Update existing device with student ID
+      await prisma.eSP32Device.update({
+        where: { deviceId },
+        data: { ownerId: studentId },
+      });
+    }
+
+    res.status(200).json({
+      message: "Device assigned to student successfully",
+      deviceId,
+      studentId,
+      studentName: student.fullName,
+    });
+  } catch (error: any) {
+    console.error("Error assigning device to student:", error);
+    res.status(500).json({
+      error: "Internal server error",
+      message: error.message,
+    });
+  }
+};

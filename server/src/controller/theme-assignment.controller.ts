@@ -118,7 +118,7 @@ export const getTeacherThemeAssignments = async (req: AuthRequest, res: Response
       const totalMedia = assignment.mediaProgresses.length;
       const openedMedia = assignment.mediaProgresses.filter((m: any) => m.openedAt).length;
       const percentage = totalMedia > 0 ? Math.round((openedMedia / totalMedia) * 100) : 0;
-
+   1  
       return {
         ...assignment,
         totalMedia,

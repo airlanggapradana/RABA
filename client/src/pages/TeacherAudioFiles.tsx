@@ -271,7 +271,7 @@ const TeacherAudioFiles = () => {
           <Button 
             onClick={handleAddAudio} 
             className="w-full"
-            disabled={newTheme !== "" && isThemeFull(newTheme)}
+            disabled={newTheme !== ""  && isThemeFull(newTheme)}
           >
             Add Audio
           </Button>

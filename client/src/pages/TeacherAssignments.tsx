@@ -54,7 +54,8 @@ const TeacherAssignments = () => {
   const [selectedStudent, setSelectedStudent] = useState<string>("");
   const [selectedAudio, setSelectedAudio] = useState<string>("");
   const [selectedTheme, setSelectedTheme] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<"audio" | "theme">("audio");
+  const [activeTab, setActiveTab] = useState<"audio" | "theme" | "devices">("audio");
+  const [deviceId, setDeviceId] = useState<string>("");
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -251,6 +252,50 @@ const TeacherAssignments = () => {
     return audio?.title || "Unknown";
   };
 
+  const handleAssignDevice = async () => {
+    if (!selectedStudent || !deviceId.trim()) {
+      toast.error("Select both student and enter device ID");
+      return;
+    }
+
+    const token = authService.getToken();
+    if (!token) return;
+
+    try {
+      const res = await fetch(`${API_URL}/teacher/assign-device`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          deviceId: deviceId.trim(),
+          studentId: selectedStudent
+        })
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Failed to assign device");
+      }
+
+      const result = await res.json();
+      
+      Swal.fire({
+        icon: "success",
+        title: "Assigned!",
+        text: `Device ${deviceId} assigned to ${getStudentName(selectedStudent)} successfully`,
+        timer: 2000
+      });
+
+      setSelectedStudent("");
+      setDeviceId("");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to assign device");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -287,6 +332,16 @@ const TeacherAssignments = () => {
           }`}
         >
           Theme Assignments
+        </button>
+        <button
+          onClick={() => setActiveTab("devices")}
+          className={`px-4 py-2 font-medium border-b-2 transition-colors ${
+            activeTab === "devices"
+              ? "border-primary text-primary"
+              : "border-transparent text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Assign Devices
         </button>
       </div>
 
@@ -365,6 +420,57 @@ const TeacherAssignments = () => {
               ))}
             </div>
           )}
+        </>
+      )}
+
+      {/* Devices Tab */}
+      {activeTab === "devices" && (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Assign ESP32 Device to Student</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Select Student</label>
+                <select
+                  value={selectedStudent}
+                  onChange={(e) => setSelectedStudent(e.target.value)}
+                  className="w-full border rounded px-3 py-2 text-sm"
+                >
+                  <option value="">-- Choose Student --</option>
+                  {students.map((student) => (
+                    <option key={student.id} value={student.id}>
+                      {student.fullName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Device ID (e.g., RABA_001)</label>
+                <input
+                  type="text"
+                  value={deviceId}
+                  onChange={(e) => setDeviceId(e.target.value.toUpperCase())}
+                  placeholder="Enter device ID"
+                  className="w-full border rounded px-3 py-2 text-sm"
+                />
+              </div>
+
+              <Button onClick={handleAssignDevice} className="w-full">
+                Assign Device
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-blue-50 border-blue-200">
+            <CardContent className="pt-6">
+              <p className="text-sm text-blue-900">
+                <strong>ℹ️ Info:</strong> Link ESP32 devices to students so ESP32 events (sensor hits, game completion) automatically update their theme assignment progress on the dashboard.
+              </p>
+            </CardContent>
+          </Card>
         </>
       )}
 
