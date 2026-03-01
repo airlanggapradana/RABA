@@ -88,15 +88,17 @@ const handleSensorHitEvent = async (deviceId: string, data: any) => {
     },
   });
 
-  // Update media_progress to track student progress on theme assignment
-  // Find the device owner (student) and update their media progress
+  // Update media_progress - mark specific step only (not all)
   try {
     const device = await prisma.eSP32Device.findUnique({
       where: { deviceId },
       select: { ownerId: true },
     });
 
-    if (device?.ownerId && theme) {
+    if (device?.ownerId && theme && step) {
+      // Parse step: "4/9" → 4
+      const stepNumber = parseInt(step.split('/')[0], 10);
+      
       // Get the theme assignment for this student and theme
       const themeAssignment = await prisma.themeAssignment.findFirst({
         where: {
@@ -107,16 +109,26 @@ const handleSensorHitEvent = async (deviceId: string, data: any) => {
       });
 
       if (themeAssignment) {
-        // Mark the audio as opened (sensor hit = student interacted)
-        await prisma.mediaProgress.updateMany({
+        // Get all media progress for this theme assignment, sorted by creation
+        const mediaProgresses = await prisma.mediaProgress.findMany({
           where: {
             themeAssignmentId: themeAssignment.id,
             mediaType: "AUDIO" as any,
           },
-          data: {
-            openedAt: new Date(),
-          },
+          orderBy: { createdAt: "asc" },
         });
+
+        // Update only the specific step (stepNumber is 1-indexed)
+        if (stepNumber > 0 && stepNumber <= mediaProgresses.length) {
+          const targetMedia = mediaProgresses[stepNumber - 1];
+          
+          await prisma.mediaProgress.update({
+            where: { id: targetMedia.id },
+            data: {
+              openedAt: new Date(),
+            },
+          });
+        }
       }
     }
   } catch (err) {

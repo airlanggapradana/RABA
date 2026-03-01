@@ -26,7 +26,10 @@ import {
   getTeacherThemeAssignments,
   getStudentThemeAssignments,
   markMediaOpened,
-  markMediaDownloaded
+  markMediaDownloaded,
+  clearThemeAssignmentProgress,
+  getThemeMediaCount,
+  getAssignmentDetailedProgress
 } from "./controller/theme-assignment.controller";
 import {authenticate, authorize} from "./middleware/auth";
 import {uploadAudio, uploadImage, getImages, deleteAudio, deleteImage} from "./controller/media.controller";
@@ -91,7 +94,10 @@ app.get("/teacher/assignments", authenticate, authorize(["TEACHER"]), getTeacher
 // teacher theme assignment routes (new theme-based)
 app.post("/teacher/assign-theme", authenticate, authorize(["TEACHER"]), assignThemeToStudent);
 app.delete("/teacher/theme-assignment/:assignmentId", authenticate, authorize(["TEACHER"]), removeThemeAssignment);
+app.post("/teacher/theme-assignment/:assignmentId/clear-progress", authenticate, authorize(["TEACHER"]), clearThemeAssignmentProgress);
 app.get("/teacher/theme-assignments", authenticate, authorize(["TEACHER"]), getTeacherThemeAssignments);
+app.get("/teacher/theme-assignment/:assignmentId/detailed-progress", authenticate, authorize(["TEACHER"]), getAssignmentDetailedProgress);
+app.get("/teacher/theme/:theme/media-count", authenticate, authorize(["TEACHER"]), getThemeMediaCount);
 
 // student theme assignment routes
 app.get("/student/theme-assignments", authenticate, authorize(["CHILD"]), getStudentThemeAssignments);

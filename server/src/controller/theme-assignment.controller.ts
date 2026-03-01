@@ -27,15 +27,29 @@ export const assignThemeToStudent = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: "Theme already assigned to this student" });
     }
 
-    // Get all audios and images in this theme
+    // Get all audios and images in this theme - Filter by createdBy to ensure teacher's own media
     const [audios, images] = await Promise.all([
       prisma.audioFile.findMany({
-        where: { theme, createdBy: teacherId }
+        where: { 
+          theme, 
+          createdBy: teacherId  // IMPORTANT: Filter by teacher
+        }
       }),
       prisma.image.findMany({
-        where: { theme, createdBy: teacherId }
+        where: { 
+          theme, 
+          createdBy: teacherId  // IMPORTANT: Filter by teacher
+        }
       })
     ]);
+
+    // Validate that theme has media
+    if (audios.length === 0 && images.length === 0) {
+      return res.status(400).json({ 
+        message: "Theme has no media",
+        details: "Please upload at least 1 audio or image to this theme first"
+      });
+    }
 
     // Create theme assignment
     const themeAssignment = await prisma.themeAssignment.create({
@@ -61,7 +75,12 @@ export const assignThemeToStudent = async (req: AuthRequest, res: Response) => {
 
     res.json({
       message: "Theme assigned successfully",
-      assignment: themeAssignment
+      assignment: {
+        ...themeAssignment,
+        audioCount: audios.length,
+        imageCount: images.length,
+        totalMedia: audios.length + images.length
+      }
     });
   } catch (error) {
     console.error("Assign theme error:", error);
@@ -118,7 +137,7 @@ export const getTeacherThemeAssignments = async (req: AuthRequest, res: Response
       const totalMedia = assignment.mediaProgresses.length;
       const openedMedia = assignment.mediaProgresses.filter((m: any) => m.openedAt).length;
       const percentage = totalMedia > 0 ? Math.round((openedMedia / totalMedia) * 100) : 0;
-   1  
+
       return {
         ...assignment,
         totalMedia,
@@ -279,5 +298,192 @@ export const markMediaDownloaded = async (req: AuthRequest, res: Response) => {
     res.json({ message: "Media marked as downloaded", mediaProgress });
   } catch (error) {
     res.status(500).json({ message: "Failed to mark media as downloaded" });
+  }
+};
+
+// Get detailed progress for debugging (shows exactly which media is opened)
+export const getAssignmentDetailedProgress = async (req: AuthRequest, res: Response) => {
+  const teacherId = req.auth!.userId;
+  const { assignmentId } = req.params;
+
+  if (!assignmentId) {
+    return res.status(400).json({ message: "Assignment ID required" });
+  }
+
+  try {
+    const assignment = await prisma.themeAssignment.findFirst({
+      where: { id: assignmentId }
+    });
+
+    if (!assignment || assignment.teacherId !== teacherId) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // Get all media progress with actual media details
+    const mediaProgresses = await prisma.mediaProgress.findMany({
+      where: { themeAssignmentId: assignmentId },
+      orderBy: { createdAt: "asc" }
+    });
+
+    // Get details for each media
+    const detailedProgress = await Promise.all(
+      mediaProgresses.map(async (progress: any) => {
+        let mediaDetails: any = { id: progress.mediaId };
+        
+        if (progress.mediaType === "AUDIO") {
+          const audio = await prisma.audioFile.findUnique({
+            where: { id: progress.mediaId },
+            select: { id: true, title: true, theme: true }
+          });
+          mediaDetails = { ...mediaDetails, ...audio, mediaType: "AUDIO" };
+        } else {
+          const image = await prisma.image.findUnique({
+            where: { id: progress.mediaId },
+            select: { id: true, title: true, theme: true }
+          });
+          mediaDetails = { ...mediaDetails, ...image, mediaType: "IMAGE" };
+        }
+
+        return {
+          progressId: progress.id,
+          mediaType: progress.mediaType,
+          mediaDetails,
+          openedAt: progress.openedAt,
+          downloadedAt: progress.downloadedAt,
+          isOpened: !!progress.openedAt
+        };
+      })
+    );
+
+    const audioOpened = detailedProgress.filter((p: any) => p.mediaType === "AUDIO" && p.isOpened).length;
+    const audioTotal = detailedProgress.filter((p: any) => p.mediaType === "AUDIO").length;
+    const imageOpened = detailedProgress.filter((p: any) => p.mediaType === "IMAGE" && p.isOpened).length;
+    const imageTotal = detailedProgress.filter((p: any) => p.mediaType === "IMAGE").length;
+    const totalOpened = audioOpened + imageOpened;
+    const totalMedia = audioTotal + imageTotal;
+
+    res.json({
+      assignmentId,
+      theme: assignment.theme,
+      createdAt: assignment.createdAt,
+      updatedAt: assignment.updatedAt,
+      progress: {
+        audio: `${audioOpened}/${audioTotal}`,
+        image: `${imageOpened}/${imageTotal}`,
+        total: `${totalOpened}/${totalMedia}`,
+        percentage: totalMedia > 0 ? Math.round((totalOpened / totalMedia) * 100) : 0
+      },
+      media: detailedProgress
+    });
+  } catch (error) {
+    console.error("Get detailed progress error:", error);
+    res.status(500).json({ message: "Failed to fetch detailed progress" });
+  }
+};
+
+// Get theme media count (helper endpoint)
+
+export const getThemeMediaCount = async (req: AuthRequest, res: Response) => {
+  const teacherId = req.auth!.userId;
+  const { theme } = req.params;
+
+  if (!theme) {
+    return res.status(400).json({ message: "Theme required" });
+  }
+
+  try {
+    const [audioCount, imageCount] = await Promise.all([
+      prisma.audioFile.count({
+        where: { theme, createdBy: teacherId }
+      }),
+      prisma.image.count({
+        where: { theme, createdBy: teacherId }
+      })
+    ]);
+
+    res.json({
+      theme,
+      audioCount,
+      imageCount,
+      totalMedia: audioCount + imageCount,
+      maxPerTheme: 9,
+      audioCanAdd: Math.max(0, 9 - audioCount),
+      imagesCanAdd: Math.max(0, 9 - imageCount)
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch theme media count" });
+  }
+};
+
+// Clear/reset all media progress for a theme assignment (keep assignment, reset progress)
+export const clearThemeAssignmentProgress = async (req: AuthRequest, res: Response) => {
+  const teacherId = req.auth!.userId;
+  const { assignmentId } = req.params;
+
+  if (!assignmentId) {
+    return res.status(400).json({ message: "Assignment ID required" });
+  }
+
+  try {
+    const assignment = await prisma.themeAssignment.findFirst({
+      where: { id: assignmentId }
+    });
+
+    if (!assignment || assignment.teacherId !== teacherId) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // Delete all media progress records for this assignment
+    const deleted = await prisma.mediaProgress.deleteMany({
+      where: { themeAssignmentId: assignmentId }
+    });
+
+    // Recreate fresh media progress records - get audios and images for THIS TEACHER's theme
+    // IMPORTANT: Filter by createdBy to avoid mixing media from other teachers
+    const audios = await prisma.audioFile.findMany({
+      where: { 
+        theme: assignment.theme,
+        createdBy: teacherId  // Filter by teacher to ensure we only get their media
+      },
+      select: { id: true }
+    });
+
+    const images = await prisma.image.findMany({
+      where: { 
+        theme: assignment.theme,
+        createdBy: teacherId  // Filter by teacher to ensure we only get their media
+      },
+      select: { id: true }
+    });
+
+    // Create new media progress records - ONLY for properly filtered media
+    const createData = [
+      ...audios.map(audio => ({
+        themeAssignmentId: assignmentId,
+        mediaId: audio.id,
+        mediaType: "AUDIO" as any
+      })),
+      ...images.map(image => ({
+        themeAssignmentId: assignmentId,
+        mediaId: image.id,
+        mediaType: "IMAGE" as any
+      }))
+    ];
+
+    const created = await prisma.mediaProgress.createMany({
+      data: createData
+    });
+
+    res.json({
+      message: "Theme assignment progress cleared and reset",
+      cleared: deleted.count,
+      recreated: created.count,
+      audioCount: audios.length,
+      imageCount: images.length,
+      totalMedia: audios.length + images.length
+    });
+  } catch (error) {
+    console.error("Clear progress error:", error);
+    res.status(500).json({ message: "Failed to clear progress", error: String(error) });
   }
 };
