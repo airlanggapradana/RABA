@@ -37,7 +37,7 @@ export const CTA = () => {
               </h2>
 
               <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto mb-10">
-                Bergabunglah dengan ratusan PAUD dan orang tua yang sudah menggunakan RABA
+                Bergabunglah dengan ratusan PAUD dan orang tua yang sudah menggunakan KASMARA
                 untuk pembelajaran anak yang lebih bermakna.
               </p>
 

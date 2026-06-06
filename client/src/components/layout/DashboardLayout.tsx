@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {authService} from "@/utils/authService";
 import {Button} from "@/components/ui/button";
 import {LayoutDashboard, Music, Image, Link as LinkIcon, Users, LogOut} from "lucide-react";
-import logo from "@/assets/logo.webp";
+import logo from "@/assets/kasma.webp";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -30,8 +30,8 @@ const DashboardLayout = () => {
       <div className="w-64 bg-card border-r border-border p-6 space-y-8 overflow-y-auto">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <img src={logo} alt="RABA" className="w-8 h-8"/>
-          <span className="text-2xl font-bold text-primary">Raba</span>
+          <img src={logo} alt="KASMARA" className="w-8 h-8"/>
+          <span className="text-2xl font-bold text-primary">Kasmara</span>
         </div>
 
         {/* Navigation Menu */}

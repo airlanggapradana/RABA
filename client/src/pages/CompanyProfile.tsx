@@ -14,7 +14,7 @@ const CompanyProfile = () => {
             Company Profile
           </h1>
           <p className="text-lg md:text-xl text-gray-600">
-            Mengenal lebih dekat tentang RABA dan misi kami
+            Mengenal lebih dekat tentang KASMARA dan misi kami
           </p>
         </div>
       </section>
@@ -30,14 +30,14 @@ const CompanyProfile = () => {
                 <Users className="w-6 h-6 text-blue-600"/>
               </div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-gray-900">
-                Tentang RABA
+                Tentang KASMARA
               </h2>
             </div>
             <p className="text-gray-600 leading-relaxed text-lg">
-              RABA adalah inisiatif media bermain edukatif berbasis karpet interaktif yang lahir dari kolaborasi
+              KASMARA adalah inisiatif media bermain edukatif berbasis karpet interaktif yang lahir dari kolaborasi
               mahasiswa lintas disiplin Universitas Muhammadiyah Surakarta (UMS), melibatkan bidang Pendidikan Bahasa
               dan Sastra Indonesia, Fisioterapi, Teknik Informatika, Teknik Elektro, Psikologi, dan Sistem Informasi.
-              RABA dikembangkan sebagai solusi pembelajaran yang berpusat pada anak, dengan pendekatan bermain terpandu
+              KASMARA dikembangkan sebagai solusi pembelajaran yang berpusat pada anak, dengan pendekatan bermain terpandu
               yang aman, inklusif, dan minim distraksi.
             </p>
           </div>
@@ -53,8 +53,8 @@ const CompanyProfile = () => {
               </h2>
             </div>
             <p className="text-gray-600 leading-relaxed text-lg">
-              Berangkat dari kebutuhan nyata masyarakat, RABA pertama kali diimplementasikan di Desa Gonilan sebagai
-              ruang uji dampak sosial dan pendidikan. Karpet interaktif RABA dirancang untuk membantu stimulasi
+              Berangkat dari kebutuhan nyata masyarakat, KASMARA pertama kali diimplementasikan di Desa Gonilan sebagai
+              ruang uji dampak sosial dan pendidikan. Karpet interaktif KASMARA dirancang untuk membantu stimulasi
               kognitif, bahasa, dan motorik anak melalui aktivitas fisik dan respons audio, sekaligus membuka ruang
               keterlibatan aktif guru dan orang tua sebagai pendamping belajar tanpa mengganggu fokus anak.
             </p>
@@ -71,9 +71,9 @@ const CompanyProfile = () => {
               </h2>
             </div>
             <p className="text-gray-600 leading-relaxed text-lg">
-              Melalui pendekatan multidisipliner, RABA memadukan pedagogi, psikologi perkembangan, teknologi interaktif,
+              Melalui pendekatan multidisipliner, KASMARA memadukan pedagogi, psikologi perkembangan, teknologi interaktif,
               dan prinsip kesehatan gerak dalam satu media pembelajaran yang sederhana dan mudah diterapkan di
-              lingkungan desa. Setiap proses pengembangan RABA berorientasi pada kebermanfaatan jangka panjang,
+              lingkungan desa. Setiap proses pengembangan KASMARA berorientasi pada kebermanfaatan jangka panjang,
               partisipasi komunitas, dan keberlanjutan sosial.
             </p>
           </div>
@@ -90,8 +90,8 @@ const CompanyProfile = () => {
               </h2>
             </div>
             <p className="text-gray-600 leading-relaxed text-lg">
-              RABA percaya bahwa pendidikan bermakna dapat dimulai dari desa. Dengan menjadikan Desa Gonilan sebagai
-              titik awal, RABA berkomitmen untuk menghadirkan inovasi pendidikan yang tumbuh dari akar masyarakat dan
+              KASMARA percaya bahwa pendidikan bermakna dapat dimulai dari desa. Dengan menjadikan Desa Gonilan sebagai
+              titik awal, KASMARA berkomitmen untuk menghadirkan inovasi pendidikan yang tumbuh dari akar masyarakat dan
               dapat direplikasi secara luas sebagai bagian dari upaya mencetak generasi yang adaptif, kolaboratif, dan
               berdaya saing.
             </p>

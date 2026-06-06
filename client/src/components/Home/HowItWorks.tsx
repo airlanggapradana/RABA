@@ -6,7 +6,7 @@ const steps = [
     number: "01",
     icon: Footprints,
     title: "Anak Melangkah",
-    description: "Anak berdiri dan melangkah di area karpet pintar RABA.",
+    description: "Anak berdiri dan melangkah di area karpet pintar KASMARA.",
     color: "bg-red-400",
   },
   {

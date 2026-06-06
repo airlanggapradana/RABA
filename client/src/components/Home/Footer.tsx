@@ -36,9 +36,9 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-display font-bold text-xl">R</span>
+                <span className="text-primary-foreground font-display font-bold text-xl">K</span>
               </div>
-              <span className="font-display font-bold text-2xl text-background">RABA</span>
+              <span className="font-display font-bold text-2xl text-background">KASMARA</span>
             </div>
             <p className="text-background/60 mb-6 max-w-sm leading-relaxed">
               Karpet pintar interaktif untuk pembelajaran aktif anak Indonesia.
@@ -47,10 +47,10 @@ export const Footer = () => {
 
             {/* Contact Info */}
             <div className="space-y-3">
-              <a href="mailto:hello@raba.id"
+              <a href="mailto:hello@kasmara.id"
                  className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
                 <Mail className="w-4 h-4"/>
-                hello@raba.id
+                hello@kasmara.id
               </a>
               <a href="tel:+6281234567890"
                  className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
@@ -109,7 +109,7 @@ export const Footer = () => {
         <div
           className="pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-background/50">
-            © 2024 RABA. Hak cipta dilindungi.
+            © 2026 KASMARA. Hak cipta dilindungi.
           </p>
 
           {/* Social Links */}

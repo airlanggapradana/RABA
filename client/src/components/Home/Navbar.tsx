@@ -1,16 +1,16 @@
-import {useState, useEffect} from "react";
-import {Menu, X} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {cn} from "@/lib/utils";
-import logo from "@/assets/logo.webp"
-import {useNavigate} from "react-router";
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import logo from "@/assets/kasma.webp";
+import { useNavigate } from "react-router";
 
 const navLinks = [
-  {href: "#features", label: "Fitur"},
-  {href: "#how-it-works", label: "Cara Kerja"},
-  {href: "#testimonials", label: "Testimoni"},
-  {href: "#team", label: "Tim"},
-  {href: "/profil", label: "Profil"},
+  { href: "#features", label: "Fitur" },
+  { href: "#how-it-works", label: "Cara Kerja" },
+  { href: "#testimonials", label: "Testimoni" },
+  { href: "#team", label: "Tim" },
+  { href: "/profil", label: "Profil" },
 ];
 
 export const Navbar = () => {
@@ -32,7 +32,7 @@ export const Navbar = () => {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         isScrolled
           ? "bg-background/95 backdrop-blur-md shadow-sm py-3"
-          : "bg-transparent py-5"
+          : "bg-transparent py-5",
       )}
     >
       <div className="container mx-auto flex items-center justify-between">
@@ -40,8 +40,8 @@ export const Navbar = () => {
         <a href="/" className="flex items-center gap-2 group">
           <img
             src={logo}
-            alt="RABA logo"
-            className="w-20 h-14 rounded-xl shadow-lg shadow-red-500/20 group-hover:shadow-xl group-hover:shadow-red-500/30 transition-shadow duration-300 border-2 border-red-100/50"
+            alt="KASMARA logo"
+            className="w-20 h-16 rounded-xl shadow-lg shadow-red-500/20 group-hover:shadow-xl group-hover:shadow-red-500/30 transition-shadow duration-300 border-2 border-red-100/50"
             loading="lazy"
           />
         </a>
@@ -77,14 +77,13 @@ export const Navbar = () => {
           className="md:hidden p-2 text-foreground"
           aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X size={24}/> : <Menu size={24}/>}
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div
-          className="md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-md border-b border-border shadow-lg">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-md border-b border-border shadow-lg">
           <nav className="container py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a

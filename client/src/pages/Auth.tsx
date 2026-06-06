@@ -6,7 +6,7 @@ import {type SubmitHandler, useForm} from "react-hook-form";
 import {loginSchema, type LoginSchema, signupSchema, type SignupSchema} from "@/utils/zod.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-import logo from "@/assets/logo.webp"
+import logo from "@/assets/kasma.webp"
 import {useNavigate} from "react-router";
 import {authService} from "@/utils/authService.ts";
 import {toast} from "sonner";
@@ -73,8 +73,8 @@ const Auth = () => {
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <Card className="w-full max-w-md shadow-elevated">
         <CardHeader className="text-center space-y-2">
-          <img src={logo} alt="RABA logo" className="w-24 object-contain object-center mx-auto"/>
-          <CardTitle className="text-2xl">Welcome to RABA</CardTitle>
+          <img src={logo} alt="KASMARA logo" className="w-24 object-contain object-center mx-auto"/>
+          <CardTitle className="text-2xl">Welcome to KASMARA</CardTitle>
           <CardDescription>Manage your progress here.</CardDescription>
         </CardHeader>
         <CardContent>

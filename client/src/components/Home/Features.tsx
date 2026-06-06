@@ -60,7 +60,7 @@ export const Features = () => {
             Fitur Unggulan
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6">
-            Kenapa Memilih RABA?
+            Kenapa Memilih KASMARA?
           </h2>
           <p className="text-muted-foreground text-lg">
             Dirancang dengan cinta oleh tim ahli untuk memberikan pengalaman belajar terbaik bagi anak Indonesia.

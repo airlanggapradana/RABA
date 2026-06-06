@@ -5,7 +5,7 @@ const testimonials = [
   {
     name: "Bu Sari",
     role: "Guru PAUD Melati",
-    content: "Anak-anak jadi lebih antusias belajar! RABA membuat mereka bergerak aktif sambil belajar mengenal huruf dan angka.",
+    content: "Anak-anak jadi lebih antusias belajar! KASMARA membuat mereka bergerak aktif sambil belajar mengenal huruf dan angka.",
     rating: 5,
     color: "border-red-400/20",
     bgColor: "bg-red-500/5",
@@ -46,7 +46,7 @@ export const Testimonials = () => {
             Dipercaya Pendidik Indonesia
           </h2>
           <p className="text-muted-foreground text-lg">
-            Lihat apa kata guru, orang tua, dan mitra kami tentang RABA.
+            Lihat apa kata guru, orang tua, dan mitra kami tentang KASMARA.
           </p>
         </div>
 
