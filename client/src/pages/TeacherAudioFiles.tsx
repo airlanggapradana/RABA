@@ -13,6 +13,7 @@ interface AudioFile {
   title: string;
   description?: string;
   audioUrl: string;
+  theme?: string;
 }
 
 const TeacherAudioFiles = () => {
@@ -21,6 +22,7 @@ const TeacherAudioFiles = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const [newTheme, setNewTheme] = useState("");
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -41,9 +43,22 @@ const TeacherAudioFiles = () => {
     fetchAudios();
   }, []);
 
+  const getThemeCount = (theme: string) => {
+    return audios.filter(audio => audio.theme === theme).length;
+  };
+
+  const isThemeFull = (theme: string) => {
+    return getThemeCount(theme) >= 9;
+  };
+
   const handleAddAudio = async () => {
-    if (!newTitle || !audioFile) {
-      toast.error("Title and audio file required");
+    if (!newTitle || !audioFile || !newTheme) {
+      toast.error("Title, theme, and audio file required");
+      return;
+    }
+
+    if (isThemeFull(newTheme)) {
+      toast.error("Theme is full! Maximum 9 items per theme");
       return;
     }
 
@@ -51,6 +66,7 @@ const TeacherAudioFiles = () => {
       const formData = new FormData();
       formData.append("title", newTitle);
       formData.append("description", newDescription);
+      formData.append("theme", newTheme);
       formData.append("audio", audioFile);
 
       const res = await fetch(`${API_URL}/teacher/upload-audio`, {
@@ -59,7 +75,10 @@ const TeacherAudioFiles = () => {
         body: formData
       });
 
-      if (!res.ok) throw new Error("Upload failed");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.details || errorData.message || "Upload failed");
+      }
 
       Swal.fire({
         icon: "success",
@@ -70,13 +89,14 @@ const TeacherAudioFiles = () => {
 
       setNewTitle("");
       setNewDescription("");
+      setNewTheme("");
       setAudioFile(null);
       setIsModalOpen(false);
 
       const data = await getAudioFiles();
       setAudios(data);
     } catch (error) {
-      toast.error("Failed to add audio");
+      toast.error(error instanceof Error ? error.message : "Failed to add audio");
       console.error(error);
     }
   };
@@ -132,44 +152,65 @@ const TeacherAudioFiles = () => {
       ) : audios.length === 0 ? (
         <Card><CardContent className="pt-6 text-center text-muted-foreground">No audio files yet</CardContent></Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {audios.map((audio) => (
-            <Card key={audio.id} className="shadow-md">
-              <CardHeader className="pb-3">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-purple-400 to-pink-500">
-                    <Music className="h-5 w-5 text-white"/>
+        <div className="space-y-6">
+          {Array.from(new Set(audios.map(a => a.theme).filter(Boolean)))
+            .sort()
+            .map((theme) => {
+              const themeAudios = audios.filter(a => a.theme === theme);
+              return (
+                <div key={theme}>
+                  <div className="mb-3 flex items-center gap-2">
+                    <h2 className="text-lg font-semibold text-gray-700">{theme}</h2>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      themeAudios.length >= 9 
+                        ? 'bg-red-100 text-red-800' 
+                        : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {themeAudios.length}/9
+                    </span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <CardTitle className="truncate">{audio.title}</CardTitle>
-                    {audio.description && (
-                      <p className="text-xs text-muted-foreground truncate">{audio.description}</p>
-                    )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {themeAudios.map((audio) => (
+                      <Card key={audio.id} className="shadow-md">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-start gap-3">
+                            <div className="p-2 rounded-lg bg-gradient-to-br from-purple-400 to-pink-500">
+                              <Music className="h-5 w-5 text-white"/>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <CardTitle className="truncate">{audio.title}</CardTitle>
+                              {audio.description && (
+                                <p className="text-xs text-muted-foreground truncate">{audio.description}</p>
+                              )}
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1"
+                              onClick={() => window.open(audio.audioUrl)}
+                            >
+                              Preview
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="text-destructive hover:bg-destructive/10"
+                              onClick={() => handleDeleteAudio(audio.id)}
+                            >
+                              <Trash2 className="h-4 w-4"/>
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => window.open(audio.audioUrl)}
-                  >
-                    Preview
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-destructive hover:bg-destructive/10"
-                    onClick={() => handleDeleteAudio(audio.id)}
-                  >
-                    <Trash2 className="h-4 w-4"/>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+              );
+            })}
         </div>
       )}
 
@@ -187,6 +228,25 @@ const TeacherAudioFiles = () => {
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Theme <span className="text-destructive">*</span>
+              {newTheme && (
+                <span className={`ml-2 text-xs ${isThemeFull(newTheme) ? 'text-destructive' : 'text-green-600'}`}>
+                  ({getThemeCount(newTheme)}/9)
+                </span>
+              )}
+            </label>
+            <Input
+              placeholder="e.g., Alat makan, Buah-buahan, Hewan"
+              value={newTheme}
+              onChange={(e) => setNewTheme(e.target.value)}
+            />
+            {newTheme && isThemeFull(newTheme) && (
+              <p className="text-xs text-destructive mt-1">⚠️ This theme is full (9/9 items). Choose another theme.</p>
+            )}
           </div>
 
           <div>
@@ -208,7 +268,11 @@ const TeacherAudioFiles = () => {
             />
           </div>
 
-          <Button onClick={handleAddAudio} className="w-full">
+          <Button 
+            onClick={handleAddAudio} 
+            className="w-full"
+            disabled={newTheme !== ""  && isThemeFull(newTheme)}
+          >
             Add Audio
           </Button>
         </div>

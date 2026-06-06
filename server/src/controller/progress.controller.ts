@@ -17,14 +17,14 @@ export const myProgress = async (req: AuthRequest, res: Response) => {
     where: { userId }
   });
 
-  const progressMap = new Map(progress.map(p => [p.audioId, p]));
+  const progressMap = new Map(progress.map((p: any) => [p.audioId, p]));
 
-  const data = assignedAudios.map(a => ({
+  const data = assignedAudios.map((a: any) => ({
     id: a.audio.id,
     title: a.audio.title,
     audioUrl: a.audio.audioUrl,
-    openedAt: progressMap.get(a.audio.id)?.openedAt ?? null,
-    downloadedAt: progressMap.get(a.audio.id)?.downloadedAt ?? null
+    openedAt: (progressMap.get(a.audio.id) as any)?.openedAt ?? null,
+    downloadedAt: (progressMap.get(a.audio.id) as any)?.downloadedAt ?? null
   }));
 
   res.json(data);
@@ -41,7 +41,7 @@ export const teacherChildrenProgress = async (req: AuthRequest, res: Response) =
     select: { studentId: true }
   });
 
-  const uniqueStudentIds = [...new Set(studentIds.map(s => s.studentId))];
+  const uniqueStudentIds = [...new Set(studentIds.map((s: any) => s.studentId))];
   const students = await prisma.profile.findMany({
     where: { id: { in: uniqueStudentIds }, role: "CHILD" }
   });
@@ -53,10 +53,10 @@ export const teacherChildrenProgress = async (req: AuthRequest, res: Response) =
     select: { audioId: true }
   });
 
-  const uniqueAudioIds = [...new Set(assignedAudios.map(a => a.audioId))];
+  const uniqueAudioIds = [...new Set(assignedAudios.map((a: any) => a.audioId))];   
   const totalAudio = uniqueAudioIds.length;
 
-  const result = await Promise.all(students.map(async (s) => {
+  const result = await Promise.all(students.map(async (s: any) => {
     const played = await prisma.userProgress.count({
       where: {
         userId: s.id,
@@ -88,17 +88,17 @@ export const parentChildrenProgress = async (req: AuthRequest, res: Response) =>
   });
 
   // Get all audios assigned to any of their children
-  const childIds = links.map(l => l.childId);
+  const childIds = links.map((l: any) => l.childId);
   const assignedAudios = await prisma.teacherAudioAssignment.findMany({
     where: { studentId: { in: childIds } },
     distinct: ["audioId"],
     select: { audioId: true }
   });
 
-  const uniqueAudioIds = [...new Set(assignedAudios.map(a => a.audioId))];
+  const uniqueAudioIds = [...new Set(assignedAudios.map((a: any) => a.audioId))];   
   const totalAudio = uniqueAudioIds.length;
 
-  const result = await Promise.all(links.map(async (l) => {
+  const result = await Promise.all(links.map(async (l: any) => {
     const played = await prisma.userProgress.count({
       where: {
         userId: l.childId,

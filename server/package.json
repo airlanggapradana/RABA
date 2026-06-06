@@ -6,11 +6,12 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon -r dotenv/config src/server.ts",
-    "vercel-build": "npx prisma generate && npm run build",
+    "vercel-build": "npx prisma generate && npx prisma db push --skip-generate --accept-data-loss && npm run build",
     "db:pull": "prisma db pull",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "ts-node -r dotenv/config src/seed.ts"
   },
   "keywords": [],
@@ -18,7 +19,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@prisma/client": "^6.19.1",
+    "@prisma/client": "^6.19.2",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "cors": "^2.8.5",

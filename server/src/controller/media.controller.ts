@@ -5,14 +5,35 @@ import {uploadToCloudinary} from "../utils/cloudinary";
 
 export const uploadAudio = async (req: AuthRequest, res: Response) => {
   const userId = req.auth!.userId;
-  const {title, description} = req.body;
+  const {title, description, theme} = req.body;
   const audioFile = (req as any).files?.audio as any;
 
   if (!title || !audioFile) {
     return res.status(400).json({message: "Title and audio file required"});
   }
 
+  if (!theme) {
+    return res.status(400).json({message: "Theme is required"});
+  }
+
   try {
+    // Check if theme already has 9 items
+    if (theme) {
+      const themeItemCount = await prisma.audioFile.count({
+        where: {
+          theme: theme,
+          createdBy: userId
+        }
+      });
+
+      if (themeItemCount >= 9) {
+        return res.status(400).json({
+          message: "Theme maximum reached",
+          details: "Each theme can have a maximum of 9 audio files"
+        });
+      }
+    }
+
     // Upload directly from buffer to Cloudinary (no temp file needed)
     const cloudinaryUrl = await uploadToCloudinary(audioFile.data, "audio", "video");
 
@@ -21,6 +42,7 @@ export const uploadAudio = async (req: AuthRequest, res: Response) => {
       data: {
         title,
         description,
+        theme,
         audioUrl: cloudinaryUrl,
         createdBy: userId
       }
@@ -35,14 +57,35 @@ export const uploadAudio = async (req: AuthRequest, res: Response) => {
 
 export const uploadImage = async (req: AuthRequest, res: Response) => {
   const userId = req.auth!.userId;
-  const {title, description} = req.body;
+  const {title, description, theme} = req.body;
   const imageFile = (req as any).files?.image as any;
 
   if (!title || !imageFile) {
     return res.status(400).json({message: "Title and image file required"});
   }
 
+  if (!theme) {
+    return res.status(400).json({message: "Theme is required"});
+  }
+
   try {
+    // Check if theme already has 9 items
+    if (theme) {
+      const themeItemCount = await prisma.image.count({
+        where: {
+          theme: theme,
+          createdBy: userId
+        }
+      });
+
+      if (themeItemCount >= 9) {
+        return res.status(400).json({
+          message: "Theme maximum reached",
+          details: "Each theme can have a maximum of 9 images"
+        });
+      }
+    }
+
     // Upload directly from buffer to Cloudinary (no temp file needed)
     const cloudinaryUrl = await uploadToCloudinary(imageFile.data, "images", "image");
 
@@ -51,6 +94,7 @@ export const uploadImage = async (req: AuthRequest, res: Response) => {
       data: {
         title,
         description,
+        theme,
         imageUrl: cloudinaryUrl,
         createdBy: userId
       }

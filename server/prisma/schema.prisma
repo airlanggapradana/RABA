@@ -35,9 +35,16 @@ model Profile {
   parents ParentChild[] @relation("child_parents")
   children ParentChild[] @relation("parent_children")
 
-  // New relations for teacher-student assignments
+  // Old relations for teacher-student assignments (keep for backwards compatibility)
   teacherAssignments TeacherAudioAssignment[] @relation("teacher_assignments")
   studentAssignments TeacherAudioAssignment[] @relation("student_assignments")
+
+  // New relations for theme assignments
+  teacherThemeAssignments ThemeAssignment[] @relation("teacher_theme_assignments")
+  studentThemeAssignments ThemeAssignment[] @relation("student_theme_assignments")
+
+  // ESP32 device owner
+  esp32Devices  ESP32Device[]
 
   @@map("profiles")
 }
@@ -47,6 +54,7 @@ model Image {
   title       String   @db.Text
   description String?  @db.Text
   imageUrl    String   @db.Text
+  theme       String?  @db.Text
   createdAt   DateTime @default(now()) @db.Timestamptz
   createdBy   String?  @db.Uuid
 
@@ -61,6 +69,7 @@ model AudioFile {
   title         String        @db.Text
   description   String?       @db.Text
   audioUrl      String        @db.Text
+  theme         String?       @db.Text
   duration      Int?
   createdAt     DateTime      @default(now()) @db.Timestamptz
   createdBy     String?       @db.Uuid
@@ -127,4 +136,115 @@ model TeacherAudioAssignment {
 
   @@unique([teacherId, audioId, studentId])
   @@map("teacher_audio_assignments")
+}
+
+model ThemeAssignment {
+  id            String   @id @default(uuid()) @db.Uuid
+  teacherId     String   @db.Uuid
+  studentId     String   @db.Uuid
+  theme         String   @db.Text
+  createdAt     DateTime @default(now()) @db.Timestamptz
+  updatedAt     DateTime @updatedAt @db.Timestamptz
+
+  teacher       Profile          @relation("teacher_theme_assignments", fields: [teacherId], references: [id], onDelete: Cascade)
+  student       Profile          @relation("student_theme_assignments", fields: [studentId], references: [id], onDelete: Cascade)
+  mediaProgresses MediaProgress[]
+
+  @@unique([teacherId, theme, studentId])
+  @@map("theme_assignments")
+}
+
+model MediaProgress {
+  id                String    @id @default(uuid()) @db.Uuid
+  themeAssignmentId String    @db.Uuid
+  mediaId           String    @db.Uuid
+  mediaType         MediaType
+  openedAt          DateTime? @db.Timestamptz
+  downloadedAt      DateTime? @db.Timestamptz
+  createdAt         DateTime  @default(now()) @db.Timestamptz
+
+  themeAssignment   ThemeAssignment @relation(fields: [themeAssignmentId], references: [id], onDelete: Cascade)
+
+  @@unique([themeAssignmentId, mediaId])
+  @@map("media_progress")
+}
+
+enum MediaType {
+  AUDIO
+  IMAGE
+}
+
+enum ESP32EventType {
+  status
+  game_start
+  sensor_hit
+  game_complete
+}
+
+model ESP32Device {
+  id            String   @id @default(uuid()) @db.Uuid
+  deviceId      String   @unique @db.Text
+  ownerId       String?  @db.Uuid
+  theme         String?  @db.Text
+  wifiRssi      Int?
+  isOnline      Boolean  @default(false)
+  lastSeen      DateTime @default(now()) @db.Timestamptz
+  uptimeSec     Int?
+  createdAt     DateTime @default(now()) @db.Timestamptz
+  updatedAt     DateTime @updatedAt @db.Timestamptz
+
+  owner         Profile? @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  events        ESP32Event[]
+  gameSessions  GameSession[]
+
+  @@map("esp32_devices")
+}
+
+model ESP32Event {
+  id              String          @id @default(uuid()) @db.Uuid
+  deviceId        String          @db.Text
+  eventType       ESP32EventType
+  payload         Json            @db.JsonB
+  createdAt       DateTime        @default(now()) @db.Timestamptz
+
+  device          ESP32Device     @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
+  @@index([deviceId])
+  @@index([eventType])
+  @@index([createdAt])
+  @@map("esp32_events")
+}
+
+model GameSession {
+  id              String   @id @default(uuid()) @db.Uuid
+  deviceId        String   @db.Text
+  theme           String   @db.Text
+  totalSteps      Int      @db.Integer
+  completedSteps  Int      @default(0)
+  startedAt       DateTime @default(now()) @db.Timestamptz
+  completedAt     DateTime? @db.Timestamptz
+  durationSec     Int?
+  isCompleted     Boolean  @default(false)
+  createdAt       DateTime @default(now()) @db.Timestamptz
+
+  device          ESP32Device       @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  sensorHits      SensorHit[]
+
+  @@index([deviceId])
+  @@index([startedAt])
+  @@map("game_sessions")
+}
+
+model SensorHit {
+  id              String   @id @default(uuid()) @db.Uuid
+  gameSessionId   String   @db.Uuid
+  sensorNumber    Int      @db.Integer
+  isCorrect       Boolean  @db.Boolean
+  step            String   @db.Text
+  createdAt       DateTime @default(now()) @db.Timestamptz
+
+  gameSession     GameSession @relation(fields: [gameSessionId], references: [id], onDelete: Cascade)
+
+  @@index([gameSessionId])
+  @@map("sensor_hits")
 }
