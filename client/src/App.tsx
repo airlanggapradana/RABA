@@ -11,12 +11,14 @@ import TeacherAudioFiles from "@/pages/TeacherAudioFiles.tsx";
 import TeacherImages from "@/pages/TeacherImages.tsx";
 import TeacherAssignments from "@/pages/TeacherAssignments.tsx";
 import TeacherParentLink from "@/pages/TeacherParentLink.tsx";
+import CompanyProfile from "@/pages/CompanyProfile.tsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path={'/profil'} element={<CompanyProfile/>}/>
         <Route path="/auth" element={<Auth/>}/>
         <Route path={'/dashboard'} element={<DashboardLayout/>}>
           <Route path="child" element={<DashboardChild/>}/>
@@ -26,7 +28,7 @@ function App() {
           <Route path="teacher/parent-links" element={<TeacherParentLink/>}/>
           <Route path="teacher/audio-files" element={<TeacherAudioFiles/>}/>
           <Route path="teacher/images" element={<TeacherImages/>}/>
-          <Route index element={<Navigate to="/auth" replace />}/>
+          <Route index element={<Navigate to="/auth" replace/>}/>
         </Route>
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound/>}/>

@@ -10,6 +10,7 @@ const navLinks = [
   {href: "#how-it-works", label: "Cara Kerja"},
   {href: "#testimonials", label: "Testimoni"},
   {href: "#team", label: "Tim"},
+  {href: "/profil", label: "Profil"},
 ];
 
 export const Navbar = () => {
@@ -36,7 +37,7 @@ export const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
+        <a href="/" className="flex items-center gap-2 group">
           <img
             src={logo}
             alt="RABA logo"
